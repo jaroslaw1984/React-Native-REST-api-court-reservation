@@ -1,16 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import Header from "./src/components/header/Header";
-import Login from "./src/components/login/Login";
+import "react-native-gesture-handler";
+import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+import Routes from "./src/components/routes/Routes";
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.content}>
-        <Login />
-      </View>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Routes />
+    </SafeAreaView>
   );
 };
 
