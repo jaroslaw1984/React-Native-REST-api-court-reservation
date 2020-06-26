@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import {
   StyleSheet,
   View,
@@ -11,7 +12,7 @@ import {
   Platform,
 } from "react-native";
 
-const Login = () => {
+const Login = ({ nav }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [version_os, setVersion_os] = useState("");
@@ -88,20 +89,30 @@ const Login = () => {
           onChangeText={(value) => setPassword(value)}
         />
 
-        <Text style={styles.android__text}>Android:</Text>
         <TextInput
+          minInputToolbarHeight={0}
+          renderInputToolbar={() => null}
           style={styles.android__input}
           value={Platform.OS.toString()}
           onChangeText={(value) => setVersion_os(value)}
         />
 
-        <Text style={styles.version__text}>Version:</Text>
         <TextInput
           style={styles.version__input}
           value={platformVersionCode()}
           onChangeText={(value) => setVersion_code(value)}
         />
         <Button onPress={() => handleFetchPostData()} title="Login" />
+
+        <Text style={styles.createAcc} onPress={() => nav.navigate("Register")}>
+          Stwórz konto
+        </Text>
+        <Text
+          style={styles.forgotPass}
+          onPress={() => nav.navigate("Recovery")}
+        >
+          Zapomniałeś hasła ?
+        </Text>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -145,6 +156,18 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 10,
   },
+  createAcc: {
+    paddingTop: 20,
+    color: "green",
+  },
+  forgotPass: {
+    paddingTop: 20,
+    color: "green",
+  },
 });
+
+Login.proptype = {
+  nav: PropTypes.object.isRequired,
+};
 
 export default Login;
