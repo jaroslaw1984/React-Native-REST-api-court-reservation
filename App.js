@@ -2,11 +2,14 @@ import React from "react";
 import "react-native-gesture-handler";
 import { StyleSheet, View, SafeAreaView, Text } from "react-native";
 import Routes from "./src/components/routes/Routes";
+import { UserProvider } from "./src/components/context/UserProvider";
 
 const App = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <Routes />
+      <UserProvider>
+        <Routes />
+      </UserProvider>
     </SafeAreaView>
   );
 };
