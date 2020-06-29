@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {
@@ -11,12 +11,15 @@ import {
   Keyboard,
   Platform,
 } from "react-native";
+import { UserContext } from "../../context/UserProvider";
 
 const Login = ({ nav }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [version_os, setVersion_os] = useState("");
+  const [version_os, setVersion_os] = useState(Platform.OS.toString());
   const [version_code, setVersion_code] = useState("");
+
+  const { setDataContext } = useContext(UserContext);
 
   const handleFetchPostData = async () => {
     const url = "https://korty.org/api/login";
@@ -31,46 +34,8 @@ const Login = ({ nav }) => {
     // user.append("password", "tester");
 
     const respond = await axios.post(url, user);
-    console.log(respond);
-  };
 
-  const platformVersionCode = () => {
-    let code;
-
-    if (Platform.OS === "android") {
-      switch (Platform.Version) {
-        case 23:
-          code = 6;
-          break;
-        case 24:
-          code = 7;
-          break;
-        case 25:
-          code = 7;
-          break;
-        case 26:
-          code = 8;
-          break;
-        case 27:
-          code = 8;
-          break;
-        case 28:
-          code = 9;
-          break;
-        case 29:
-          code = 10;
-          break;
-        case 30:
-          code = 11;
-          break;
-        default:
-          Platform.Version;
-      }
-    } else if (Platform.OS === "ios") {
-      code = parseInt(Platform.Version);
-    }
-
-    return code.toString();
+    setDataContext(respond);
   };
 
   return (
@@ -93,13 +58,14 @@ const Login = ({ nav }) => {
           minInputToolbarHeight={0}
           renderInputToolbar={() => null}
           style={styles.android__input}
-          value={Platform.OS.toString()}
-          onChangeText={(value) => setVersion_os(value)}
+          value={version_os}
+          onChangeText={(text) => setVersion_os(text)}
         />
 
         <TextInput
           style={styles.version__input}
-          value={platformVersionCode()}
+          // value="7"
+          defaultValue="7"
           onChangeText={(value) => setVersion_code(value)}
         />
         <Button onPress={() => handleFetchPostData()} title="Login" />
