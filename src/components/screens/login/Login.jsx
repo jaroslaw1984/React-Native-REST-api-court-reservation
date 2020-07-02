@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  Alert,
 } from "react-native";
 import { UserContext } from "../../context/UserProvider";
 
@@ -18,7 +19,6 @@ const Login = ({ nav }) => {
   const [password, setPassword] = useState("");
   const [version_os, setVersion_os] = useState(Platform.OS.toString());
   const [version_code, setVersion_code] = useState("");
-
   const { setDataContext } = useContext(UserContext);
 
   const handleFetchPostData = async () => {
@@ -35,7 +35,17 @@ const Login = ({ nav }) => {
 
     const respond = await axios.post(url, user);
 
-    setDataContext(respond);
+    console.log(respond);
+
+    if (respond.data.error_code === 2001) {
+      Alert.alert("Login", respond.data.error.message);
+    } else if (respond.data.error_code === 0) {
+      setDataContext(respond);
+    }
+
+    // const test = respond.config.data._parts;
+
+    // console.log(test[0][1]);
   };
 
   return (
@@ -129,6 +139,10 @@ const styles = StyleSheet.create({
   forgotPass: {
     paddingTop: 20,
     color: "green",
+  },
+  loading_Indicator: {
+    flex: 1,
+    justifyContent: "center",
   },
 });
 
