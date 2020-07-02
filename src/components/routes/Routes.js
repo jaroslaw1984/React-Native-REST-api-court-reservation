@@ -1,55 +1,54 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, View, SafeAreaView, Text } from "react-native";
+
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Text,
+  ActivityIndicator,
+  AsyncStorage,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import Login from "../screens/login/Login";
 import { UserContext } from "../context/UserProvider";
-
-const LoginScreen = ({ navigation }) => {
-  return (
-    <View>
-      <Login nav={navigation} />
-    </View>
-  );
-};
-
-const Register = () => {
-  return <WebView source={{ uri: "https://korty.org/rejestracja" }} />;
-};
-
-const Recovery = () => {
-  return <WebView source={{ uri: "https://korty.org/przypomnij-haslo" }} />;
-};
-
-const Stack = createStackNavigator();
+import UserMenu from "../screens/userMenu/UserMenu";
+import StackNavigator from "../screens/stackNavigator/StackNavigator";
 
 const Routes = () => {
-  const { login } = useContext(UserContext);
-  console.log(login);
+  const [loading, setLoading] = useState(true);
+  const { user, login } = useContext(UserContext);
 
+  useEffect(() => {
+    // check if user is logged in or not
+    AsyncStorage.getItem("user")
+      .then((item) => {
+        if (item) {
+          login();
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator style={styles.loading_Indicator} size="large" />;
+  }
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ header: () => null }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{ headerTitle: "Stwórz konto" }}
-        />
-        <Stack.Screen
-          name="Recovery"
-          component={Recovery}
-          options={{ headerTitle: "Przypomnij hasło" }}
-        />
-      </Stack.Navigator>
+      {user ? <UserMenu /> : <StackNavigator />}
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  loading_Indicator: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});
 
 export default Routes;
