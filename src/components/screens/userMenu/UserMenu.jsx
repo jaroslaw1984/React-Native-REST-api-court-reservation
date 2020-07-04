@@ -1,26 +1,37 @@
-import React, { useContext } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { UserContext } from "../../context/UserProvider";
-import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import TopMenu from "./TopMenu";
+import Clubs from "../clubs/Clubs";
+import Reservations from "../Reservations";
+import ClubList from "../clubs/ClubList";
+import { createStackNavigator } from "@react-navigation/stack";
+
+const AllClubs = () => {
+  return <ClubList />;
+};
+
+const ClubsScreen = ({ navigation }) => {
+  return <Clubs nav={navigation} />;
+};
 
 const ReservationScreen = () => {
-  const { logout } = useContext(UserContext);
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Rezerwacja</Text>
-      <Button title="Logout" onPress={() => logout()} />
+      <Reservations />
     </View>
   );
 };
 
-const ClubsScreen = () => {
+const ClubStack = createStackNavigator();
+
+const ClubStackScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Kluby</Text>
-    </View>
+    <ClubStack.Navigator>
+      <ClubStack.Screen name="Kluby" component={ClubsScreen} />
+      <ClubStack.Screen name="Lista" component={AllClubs} />
+    </ClubStack.Navigator>
   );
 };
 
@@ -48,8 +59,8 @@ const UserMenu = () => {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Rezerwacja" component={TopMenu} />
-      <Tab.Screen name="Kluby" component={ClubsScreen} />
+      <Tab.Screen name="Kluby" component={ClubStackScreen} />
+      <Tab.Screen name="Rezerwacja" component={ReservationScreen} />
     </Tab.Navigator>
   );
 };
