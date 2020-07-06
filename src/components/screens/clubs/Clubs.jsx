@@ -7,12 +7,13 @@ import {
   StatusBar,
   Platform,
   Button,
+  FlatList,
 } from "react-native";
 import { UserContext } from "../../context/UserProvider";
 
 const Clubs = ({ nav }) => {
   const { user } = useContext(UserContext);
-  const { userClubs, setUserClubs } = useState([]);
+  const [userClubs, setUserClubs] = useState([]);
 
   useEffect(() => {
     const fetchClubs = async () => {
@@ -24,9 +25,7 @@ const Clubs = ({ nav }) => {
 
       await axios
         .post(url, userSessionKey)
-        .then((respond) => {
-          setUserClubs(respond.data.results);
-        })
+        .then((respond) => setUserClubs(respond.data.results))
         .catch((err) => {
           console.error(err);
         });
@@ -37,6 +36,11 @@ const Clubs = ({ nav }) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Lista klubów</Text>
+      <FlatList
+        keyExtractor={(item) => item.id}
+        data={userClubs}
+        renderItem={({ item }) => <Text>{item.name}</Text>}
+      />
       <Button
         title="Zobacz wszystkie kluby"
         onPress={() => nav.navigate("Lista")}
