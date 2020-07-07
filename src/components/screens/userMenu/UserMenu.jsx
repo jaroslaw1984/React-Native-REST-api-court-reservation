@@ -7,6 +7,12 @@ import Clubs from "../clubs/Clubs";
 import Reservations from "../Reservations";
 import ClubList from "../clubs/ClubList";
 import { createStackNavigator } from "@react-navigation/stack";
+import { WebView } from "react-native-webview";
+
+const AboutClub = ({ route }) => {
+  const { url } = route.params;
+  return <WebView source={{ uri: url }} />;
+};
 
 const AllClubs = () => {
   return <ClubList />;
@@ -31,6 +37,7 @@ const ClubStackScreen = () => {
     <ClubStack.Navigator>
       <ClubStack.Screen name="Kluby" component={ClubsScreen} />
       <ClubStack.Screen name="Lista" component={AllClubs} />
+      <ClubStack.Screen name="Informacje o klubie" component={AboutClub} />
     </ClubStack.Navigator>
   );
 };
