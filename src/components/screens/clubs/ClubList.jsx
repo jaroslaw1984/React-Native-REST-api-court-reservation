@@ -1,12 +1,78 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from "react-native";
+import { UserContext } from "../../context/UserProvider";
+import axios from "axios";
+import ClubListItem from "./ClubListItem";
 
-const ClubList = () => {
-  return (
-    <View>
-      <Text>Lista wszystkich klubów</Text>
-    </View>
+const useAllClubs = (url) => {
+  const { user } = useContext(UserContext);
+  const [searchClubs, setSearchClubs] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchAllClubs = async () => {
+    const getAllClubs = new FormData();
+
+    getAllClubs.append("session_key", user.data.results.session_key);
+    getAllClubs.append("location_level", user.data.results.location.level);
+    getAllClubs.append("location_id", user.data.results.location.id);
+
+    await axios
+      .post(url, getAllClubs)
+      .then((respond) => {
+        setTimeout(() => {
+          setSearchClubs(respond.data.results);
+          setLoading(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchAllClubs();
+  }, [url]);
+
+  return { searchClubs, loading };
+};
+
+const ClubList = ({ nav }) => {
+  const { searchClubs, loading } = useAllClubs(
+    "https://korty.org/api/clubs/show"
   );
+  if (searchClubs === "") {
+    <View style={styles.club__container}>
+      <Text>Niepowodzenie z pobraniem listy klubów.</Text>
+    </View>;
+  } else {
+    return (
+      <View style={styles.club__container}>
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <ClubListItem nav={nav} data={searchClubs} />
+        )}
+      </View>
+    );
+  }
 };
 
 export default ClubList;
+
+const styles = StyleSheet.create({
+  club__container: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
+    paddingTop: 10,
+    paddingHorizontal: 10,
+  },
+});
