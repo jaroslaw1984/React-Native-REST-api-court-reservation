@@ -14,8 +14,8 @@ const AboutClub = ({ route }) => {
   return <WebView source={{ uri: url }} />;
 };
 
-const AllClubs = () => {
-  return <ClubList />;
+const AllClubs = ({ navigation }) => {
+  return <ClubList nav={navigation} />;
 };
 
 const ClubsScreen = ({ navigation }) => {
