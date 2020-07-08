@@ -11,60 +11,65 @@ import {
 
 const ClubItem = ({ nav, data }) => {
   return (
-    <View style={styles.club__container}>
-      <FlatList
-        keyExtractor={(item) => item.id.toString()}
-        data={data}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() =>
-              nav.navigate("Informacje o klubie", { url: item.url })
-            }
-          >
-            <View style={styles.club__item}>
-              <View
-                style={
-                  item.status === 1
-                    ? styles.club__container__img
-                    : styles.club__container__img__offline
-                }
-              >
-                <Image
-                  source={
-                    item.logo_src === ""
-                      ? require("../../../../assets/ic_launcher_foreground.png")
-                      : { uri: item.logo_src }
-                  }
-                  style={styles.club__img}
-                />
-              </View>
-              <View
-                style={
-                  item.status === 1
-                    ? styles.club__info
-                    : styles.club__info__offline
-                }
-              >
-                <Text style={styles.club__name}>{item.name}</Text>
-                <Text>
-                  {item.city_name} ({item.district_name})
-                </Text>
-                <Text>{item.address}</Text>
-              </View>
-              <View style={styles.club__status}>
+    <View>
+      {/* this condition need to be here for button at the bottom */}
+      {data === "" ? (
+        <Text>Nie posiadasz ulubionych klubów</Text>
+      ) : (
+        <FlatList
+          keyExtractor={(item) => item.id.toString()}
+          data={data}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() =>
+                nav.navigate("Informacje o klubie", { url: item.url })
+              }
+            >
+              <View style={styles.club__item}>
                 <View
                   style={
                     item.status === 1
-                      ? styles.club__isOnline
-                      : styles.club__isOffline
+                      ? styles.club__container__img
+                      : styles.club__container__img__offline
                   }
-                ></View>
-                <Text>{item.status === 1 ? "Online" : "Offline"}</Text>
+                >
+                  <Image
+                    source={
+                      item.logo_src === ""
+                        ? require("../../../../assets/ic_launcher_foreground.png")
+                        : { uri: item.logo_src }
+                    }
+                    style={styles.club__img}
+                  />
+                </View>
+                <View
+                  style={
+                    item.status === 1
+                      ? styles.club__info
+                      : styles.club__info__offline
+                  }
+                >
+                  <Text style={styles.club__name}>{item.name}</Text>
+                  {item.district_name && (
+                    <Text>{`(${item.district_name})`}</Text>
+                  )}
+                  <Text style={styles.club__address}>{item.address}</Text>
+                </View>
+                <View style={styles.club__status}>
+                  <View
+                    style={
+                      item.status === 1
+                        ? styles.club__isOnline
+                        : styles.club__isOffline
+                    }
+                  ></View>
+                  <Text>{item.status === 1 ? "Online" : "Offline"}</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+            </TouchableOpacity>
+          )}
+        />
+      )}
       <Button
         title="Zobacz wszystkie kluby"
         onPress={() => nav.navigate("Lista")}
@@ -75,11 +80,6 @@ const ClubItem = ({ nav, data }) => {
 export default ClubItem;
 
 const styles = StyleSheet.create({
-  club__container: {
-    justifyContent: "flex-start",
-    paddingTop: 10,
-    paddingHorizontal: 10,
-  },
   club__item: {
     flex: 1,
     width: "100%",
@@ -108,6 +108,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "column",
     paddingHorizontal: 10,
+  },
+  club__name: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  club__address: {
+    textAlign: "center",
   },
   club__info__offline: {
     flex: 2,
@@ -158,9 +166,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
-  },
-  club__name: {
-    fontSize: 18,
-    fontWeight: "bold",
   },
 });
