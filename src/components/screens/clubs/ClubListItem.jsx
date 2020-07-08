@@ -42,13 +42,9 @@ const ClubListItem = ({ nav, data }) => {
               }
             >
               <Text style={styles.club__name}>{item.name}</Text>
-              {item.district_name && (
-                <Text>
-                  {item.district_name === null
-                    ? null
-                    : `(${item.district_name})`}
-                </Text>
-              )}
+
+              {item.district_name && <Text>{`(${item.district_name})`}</Text>}
+
               <Text style={styles.club__address}>{item.address}</Text>
             </View>
             <View style={styles.club__status}>
