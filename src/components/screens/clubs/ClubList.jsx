@@ -1,13 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { UserContext } from "../../context/UserProvider";
 import axios from "axios";
 import ClubListItem from "./ClubListItem";
@@ -27,10 +19,8 @@ const useAllClubs = (url) => {
     await axios
       .post(url, getAllClubs)
       .then((respond) => {
-        setTimeout(() => {
-          setSearchClubs(respond.data.results);
-          setLoading(false);
-        }, 1000);
+        setSearchClubs(respond.data.results);
+        setLoading(false);
       })
       .catch((err) => {
         console.error(err);
