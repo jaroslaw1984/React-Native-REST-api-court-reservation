@@ -44,25 +44,15 @@ const ClubList = ({ nav }) => {
     </View>;
   } else {
     return (
-      <View style={styles.club__container}>
+      <React.Fragment>
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (
           <ClubListItem nav={nav} data={searchClubs} />
         )}
-      </View>
+      </React.Fragment>
     );
   }
 };
 
 export default ClubList;
-
-const styles = StyleSheet.create({
-  club__container: {
-    flex: 1,
-    justifyContent: "center",
-    alignContent: "center",
-    paddingTop: 10,
-    paddingHorizontal: 10,
-  },
-});
