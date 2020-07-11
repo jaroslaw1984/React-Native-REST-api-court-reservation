@@ -53,3 +53,10 @@ const Clubs = ({ nav }) => {
 };
 
 export default Clubs;
+
+const styles = StyleSheet.create({
+  loading_Indicator: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});
