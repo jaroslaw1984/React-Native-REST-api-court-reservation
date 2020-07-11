@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import ClubCard from "./ClubCard";
 
 const ClubItem = ({ nav, data }) => {
   return (
@@ -18,70 +19,7 @@ const ClubItem = ({ nav, data }) => {
       {data === "" ? (
         <Text>Nie posiadasz ulubionych klubów</Text>
       ) : (
-        <FlatList
-          keyExtractor={(item) => item.id.toString()}
-          data={data}
-          numColumns={2}
-          renderItem={({ item }) => (
-            <View style={styles.club__card}>
-              <TouchableOpacity
-                onPress={() =>
-                  nav.navigate("Informacje o klubie", { url: item.url })
-                }
-              >
-                <View style={styles.club__item}>
-                  <View
-                    style={
-                      item.status === 1
-                        ? styles.club__container__img
-                        : styles.club__container__img__offline
-                    }
-                  >
-                    <Image
-                      source={
-                        item.logo_src === ""
-                          ? require("../../../../assets/ic_launcher_foreground.png")
-                          : { uri: item.logo_src }
-                      }
-                      style={styles.club__img}
-                    />
-                    <View style={styles.card__settings}>
-                      <MaterialIcons name="settings" size={40} color="white" />
-                    </View>
-                    <View style={styles.img__bg__circle}></View>
-                  </View>
-                  <View
-                    style={
-                      item.status === 1
-                        ? styles.club__info
-                        : styles.club__info__offline
-                    }
-                  >
-                    <Text style={styles.club__name}>{item.name}</Text>
-                    {item.district_name && (
-                      <Text
-                        style={styles.club__district}
-                      >{`(${item.district_name})`}</Text>
-                    )}
-                    <Text style={styles.club__address}>{item.address}</Text>
-                  </View>
-                  <View style={styles.club__status}>
-                    <View
-                      style={
-                        item.status === 1
-                          ? styles.club__isOnline
-                          : styles.club__isOffline
-                      }
-                    ></View>
-                    <Text style={styles.club__status__text}>
-                      {item.status === 1 ? "Online" : "Offline"}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
+        <ClubCard nav={nav} data={data} />
       )}
       <View style={styles.button__container}>
         <View style={styles.button__add}>
