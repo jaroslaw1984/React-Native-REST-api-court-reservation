@@ -46,7 +46,9 @@ const ClubList = ({ nav }) => {
     return (
       <React.Fragment>
         {loading ? (
-          <ActivityIndicator size="large" />
+          <View style={styles.loading_Indicator}>
+            <ActivityIndicator size="large" />
+          </View>
         ) : (
           <ClubListItem nav={nav} data={searchClubs} />
         )}
@@ -56,3 +58,10 @@ const ClubList = ({ nav }) => {
 };
 
 export default ClubList;
+
+const styles = StyleSheet.create({
+  loading_Indicator: {
+    flex: 1,
+    justifyContent: "center",
+  },
+});
