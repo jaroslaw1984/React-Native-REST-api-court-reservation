@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ClubCard from "./ClubCard";
 
@@ -10,7 +10,14 @@ const ClubItem = ({ nav, data }) => {
       {data === "" ? (
         <Text>Nie posiadasz ulubionych klubów</Text>
       ) : (
-        <ClubCard nav={nav} data={data} />
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={data}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <ClubCard nav={nav} item={item} key={item.id} />
+          )}
+        />
       )}
       <View style={styles.button__container}>
         <View style={styles.button__add}>
