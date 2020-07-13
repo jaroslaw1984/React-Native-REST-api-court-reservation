@@ -1,80 +1,129 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
-  FlatList,
   Image,
   TouchableOpacity,
+  Button,
+  Animated,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
-const ClubCard = ({ nav, data }) => {
+const ClubCardOptions = ({ details, close }) => {
   return (
-    <FlatList
-      keyExtractor={(item) => item.id.toString()}
-      data={data}
-      numColumns={2}
-      renderItem={({ item }) => (
-        <View style={styles.club__card}>
-          <TouchableOpacity
-            onPress={() =>
+    <View>
+      <View>
+        <TouchableOpacity>
+          <AntDesign
+            name="closecircle"
+            size={24}
+            color="black"
+            onPress={() => close()}
+          />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <Button title="Dodaj" />
+        <Button title="Usuń" />
+        <Button title="Szczegóły" onPress={() => details()} />
+      </View>
+    </View>
+  );
+};
+
+const ClubCard = ({ nav, item }) => {
+  const [optionsPosition, setOptionsPosition] = useState(
+    new Animated.Value(-150)
+  );
+
+  const handleShowOption = () => {
+    Animated.timing(optionsPosition, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const handleHideOption = () => {
+    Animated.timing(optionsPosition, {
+      toValue: -150,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  return (
+    <View style={styles.club__card}>
+      <View style={styles.club__item}>
+        <View
+          style={
+            item.status === 1
+              ? styles.club__container__img
+              : styles.club__container__img__offline
+          }
+        >
+          <Image
+            source={
+              item.logo_src === ""
+                ? require("../../../../assets/ic_launcher_foreground.png")
+                : { uri: item.logo_src }
+            }
+            style={styles.club__img}
+          />
+          <View style={styles.card__settings}>
+            <TouchableOpacity
+              onPress={
+                () => handleShowOption()
+                //
+              }
+            >
+              <Ionicons name="ios-options" size={35} color="#fff" />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={
+              item.status === 1
+                ? styles.img__bg__circle
+                : styles.img__bg__circle__offline
+            }
+          ></View>
+        </View>
+        <View style={styles.club__info}>
+          <Text style={styles.club__name}>{item.name}</Text>
+          {item.district_name && (
+            <Text
+              style={styles.club__district}
+            >{`(${item.district_name})`}</Text>
+          )}
+          <Text style={styles.club__address}>{item.address}</Text>
+        </View>
+        <View style={styles.club__status}>
+          <View
+            style={
+              item.status === 1 ? styles.club__isOnline : styles.club__isOffline
+            }
+          ></View>
+          <Text style={styles.club__status__text}>
+            {item.status === 1 ? "Online" : "Offline"}
+          </Text>
+        </View>
+        <Animated.View
+          style={{
+            position: "absolute",
+            transform: [{ translateY: optionsPosition }],
+          }}
+        >
+          <ClubCardOptions
+            close={() => handleHideOption()}
+            details={() =>
               nav.navigate("Informacje o klubie", { url: item.url })
             }
-          >
-            <View style={styles.club__item}>
-              <View
-                style={
-                  item.status === 1
-                    ? styles.club__container__img
-                    : styles.club__container__img__offline
-                }
-              >
-                <Image
-                  source={
-                    item.logo_src === ""
-                      ? require("../../../../assets/ic_launcher_foreground.png")
-                      : { uri: item.logo_src }
-                  }
-                  style={styles.club__img}
-                />
-                <View style={styles.card__settings}>
-                  <MaterialIcons name="settings" size={40} color="white" />
-                </View>
-                <View style={styles.img__bg__circle}></View>
-              </View>
-              <View
-                style={
-                  item.status === 1
-                    ? styles.club__info
-                    : styles.club__info__offline
-                }
-              >
-                <Text style={styles.club__name}>{item.name}</Text>
-                {item.district_name && (
-                  <Text
-                    style={styles.club__district}
-                  >{`(${item.district_name})`}</Text>
-                )}
-                <Text style={styles.club__address}>{item.address}</Text>
-              </View>
-              <View style={styles.club__status}>
-                <View
-                  style={
-                    item.status === 1
-                      ? styles.club__isOnline
-                      : styles.club__isOffline
-                  }
-                ></View>
-                <Text style={styles.club__status__text}>
-                  {item.status === 1 ? "Online" : "Offline"}
-                </Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
-    />
+          />
+        </Animated.View>
+      </View>
+    </View>
   );
 };
 
@@ -83,6 +132,7 @@ export default ClubCard;
 const styles = StyleSheet.create({
   club__card: {
     flex: 1,
+    paddingHorizontal: 8,
     justifyContent: "center",
     flexDirection: "row",
   },
@@ -109,6 +159,12 @@ const styles = StyleSheet.create({
     elevation: 12,
   },
   club__container__img: {
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    marginLeft: 20,
+    marginVertical: 50,
+  },
+  club__container__img__offline: {
     flex: 1,
     justifyContent: "center",
     alignSelf: "flex-start",
@@ -130,13 +186,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#6740FF",
     zIndex: -1,
   },
-  club__container__img__offline: {
-    flex: 1,
-    justifyContent: "center",
-    alignSelf: "flex-start",
-    marginLeft: 20,
-    marginVertical: 50,
-    opacity: 0.3,
+  img__bg__circle__offline: {
+    position: "absolute",
+    top: -170,
+    left: -75,
+    width: 250,
+    height: 250,
+    borderRadius: 100,
+    backgroundColor: "#393e46",
+    zIndex: -1,
   },
   club__img: {
     width: 90,
@@ -168,16 +226,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     opacity: 0.5,
   },
-  club__info__offline: {
-    flex: 1,
-    alignSelf: "stretch",
-    textAlign: "center",
-    flexDirection: "column",
-    padding: 8,
-    paddingVertical: 20,
-    marginVertical: 20,
-    opacity: 0.2,
-  },
+  // club__info__offline: {
+  //   flex: 1,
+  //   alignSelf: "stretch",
+  //   textAlign: "center",
+  //   flexDirection: "column",
+  //   padding: 8,
+  //   paddingVertical: 20,
+  //   marginVertical: 20,
+  //   opacity: 0.2,
+  // },
   loading_Indicator: {
     flex: 1,
     justifyContent: "center",
