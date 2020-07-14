@@ -1,62 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
   Text,
   Image,
   TouchableOpacity,
-  Button,
   Animated,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-
-const ClubCardOptions = ({ details, close }) => {
-  return (
-    <View>
-      <View>
-        <TouchableOpacity>
-          <AntDesign
-            name="closecircle"
-            size={24}
-            color="black"
-            onPress={() => close()}
-          />
-        </TouchableOpacity>
-      </View>
-      <View>
-        <Button title="Dodaj" />
-        <Button title="Usuń" />
-        <Button title="Szczegóły" onPress={() => details()} />
-      </View>
-    </View>
-  );
-};
+import ClubCardModal from "./ClubCardModal";
 
 const ClubCard = ({ nav, item }) => {
-  const [optionsPosition, setOptionsPosition] = useState(
-    new Animated.Value(-150)
-  );
+  const [modalPosition, setmodalPosition] = useState(new Animated.Value(-200));
+  const [modalActive, setmodalActive] = useState(false);
+  const fadeIn = useRef(new Animated.Value(0)).current;
 
-  const handleShowOption = () => {
-    Animated.timing(optionsPosition, {
-      toValue: 0,
+  const handleShowModal = () => {
+    Animated.timing(modalPosition, {
+      toValue: 100,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+    setmodalActive(true);
+    Animated.timing(fadeIn, {
+      toValue: 0.3,
       duration: 500,
       useNativeDriver: true,
     }).start();
   };
 
-  const handleHideOption = () => {
-    Animated.timing(optionsPosition, {
-      toValue: -150,
+  const handleHideModal = () => {
+    Animated.timing(modalPosition, {
+      toValue: -200,
       duration: 500,
       useNativeDriver: true,
     }).start();
+    Animated.timing(fadeIn, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+    setTimeout(() => {
+      setmodalActive(false);
+    }, 500);
   };
 
   return (
     <View style={styles.club__card}>
       <View style={styles.club__item}>
+        <Animated.View
+          style={
+            modalActive && [styles.club__options__isActive, { opacity: fadeIn }]
+          }
+        ></Animated.View>
         <View
           style={
             item.status === 1
@@ -75,7 +71,7 @@ const ClubCard = ({ nav, item }) => {
           <View style={styles.card__settings}>
             <TouchableOpacity
               onPress={
-                () => handleShowOption()
+                () => handleShowModal()
                 //
               }
             >
@@ -110,13 +106,18 @@ const ClubCard = ({ nav, item }) => {
           </Text>
         </View>
         <Animated.View
-          style={{
-            position: "absolute",
-            transform: [{ translateY: optionsPosition }],
-          }}
+          style={
+            modalActive
+              ? {
+                  position: "absolute",
+                  transform: [{ translateY: modalPosition }],
+                  zIndex: 2,
+                }
+              : { display: "none" }
+          }
         >
-          <ClubCardOptions
-            close={() => handleHideOption()}
+          <ClubCardModal
+            close={() => handleHideModal()}
             details={() =>
               nav.navigate("Informacje o klubie", { url: item.url })
             }
@@ -286,5 +287,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
+  },
+  club__options__isActive: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 2,
+    backgroundColor: "black",
   },
 });
