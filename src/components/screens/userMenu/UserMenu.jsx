@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { FontAwesome } from "@expo/vector-icons";
 import TopMenu from "./TopMenu";
 import Clubs from "../clubs/Clubs";
@@ -9,19 +10,23 @@ import ClubList from "../clubs/ClubList";
 import { createStackNavigator } from "@react-navigation/stack";
 import { WebView } from "react-native-webview";
 
+// This show details about club and load the webpage of club info
 const AboutClub = ({ route }) => {
   const { url } = route.params;
   return <WebView source={{ uri: url }} />;
 };
 
+// This show all list clubs
 const AllClubs = ({ navigation }) => {
   return <ClubList nav={navigation} />;
 };
 
+// This show clubs that are added to favorite bookmark
 const ClubsScreen = ({ navigation }) => {
   return <Clubs nav={navigation} />;
 };
 
+// Other tab screen
 const ReservationScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -30,21 +35,29 @@ const ReservationScreen = () => {
   );
 };
 
-const ClubStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-const ClubStackScreen = () => {
+// This show everything that is in club tab
+const HomeStackScreen = () => {
   return (
-    <ClubStack.Navigator>
-      <ClubStack.Screen name="Kluby" component={ClubsScreen} />
-      <ClubStack.Screen name="Lista" component={AllClubs} />
-      <ClubStack.Screen name="Informacje o klubie" component={AboutClub} />
-    </ClubStack.Navigator>
+    <HomeStack.Navigator
+      options={{ headerStyle: { backgroundColor: "black" } }}
+    >
+      <HomeStack.Screen
+        name="Kluby"
+        component={ClubsScreen}
+        options={{ headerTitle: (props) => <TopMenu {...props} /> }}
+      />
+      <HomeStack.Screen name="Lista" component={AllClubs} />
+      <HomeStack.Screen name="Informacje o klubie" component={AboutClub} />
+    </HomeStack.Navigator>
   );
 };
 
 const Tab = createBottomTabNavigator();
 
-const UserMenu = () => {
+// config bottom tab navigator
+const BottomTabStack = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -66,9 +79,20 @@ const UserMenu = () => {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Kluby" component={ClubStackScreen} />
+      <Tab.Screen name="Kluby" component={HomeStackScreen} />
       <Tab.Screen name="Rezerwacja" component={ReservationScreen} />
     </Tab.Navigator>
+  );
+};
+
+const Drawer = createDrawerNavigator();
+
+// Drawer left menu
+const UserMenu = () => {
+  return (
+    <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Screen name="Home" component={BottomTabStack} />
+    </Drawer.Navigator>
   );
 };
 
