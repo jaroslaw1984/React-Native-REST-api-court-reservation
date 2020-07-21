@@ -5,9 +5,8 @@ import { FlatList } from "react-native";
 const ClubListItem = ({ nav, data }) => {
   return (
     <FlatList
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
       data={data}
-      numColumns={2}
       renderItem={({ item }) => (
         <ClubCard nav={nav} item={item} key={item.id} />
       )}

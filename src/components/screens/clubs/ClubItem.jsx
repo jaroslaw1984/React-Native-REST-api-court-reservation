@@ -11,9 +11,8 @@ const ClubItem = ({ nav, data }) => {
         <Text>Nie posiadasz ulubionych klubów</Text>
       ) : (
         <FlatList
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           data={data}
-          numColumns={2}
           renderItem={({ item }) => (
             <ClubCard nav={nav} item={item} key={item.id} />
           )}
@@ -37,10 +36,9 @@ export default ClubItem;
 
 const styles = StyleSheet.create({
   button__container: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    paddingBottom: 20,
+    position: "absolute",
+    bottom: 10,
+    right: 10,
   },
   button__add: {
     width: 55,
