@@ -9,6 +9,7 @@ import Reservations from "../Reservations";
 import ClubList from "../clubs/ClubList";
 import { createStackNavigator } from "@react-navigation/stack";
 import { WebView } from "react-native-webview";
+import RootDrawer from "../../routes/RootDrawer";
 
 // This show details about club and load the webpage of club info
 const AboutClub = ({ route }) => {
@@ -38,7 +39,7 @@ const ReservationScreen = () => {
 const HomeStack = createStackNavigator();
 
 // This show everything that is in club tab
-const HomeStackScreen = () => {
+const HomeStackScreen = ({ navigation }) => {
   return (
     <HomeStack.Navigator
       options={{ headerStyle: { backgroundColor: "black" } }}
@@ -46,9 +47,13 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="Kluby"
         component={ClubsScreen}
-        options={{ headerTitle: (props) => <TopMenu {...props} /> }}
+        options={{
+          headerTitle: (props) => (
+            <TopMenu {...props} navigation={navigation} />
+          ),
+        }}
       />
-      <HomeStack.Screen name="Lista" component={AllClubs} />
+      <HomeStack.Screen name="Lista klubów" component={AllClubs} />
       <HomeStack.Screen name="Informacje o klubie" component={AboutClub} />
     </HomeStack.Navigator>
   );
@@ -89,11 +94,7 @@ const Drawer = createDrawerNavigator();
 
 // Drawer left menu
 const UserMenu = () => {
-  return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={BottomTabStack} />
-    </Drawer.Navigator>
-  );
+  return <RootDrawer bottomStack={BottomTabStack} />;
 };
 
 const styles = StyleSheet.create({
