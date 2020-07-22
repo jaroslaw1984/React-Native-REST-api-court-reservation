@@ -22,7 +22,7 @@ const ClubItem = ({ nav, data }) => {
         <View style={styles.button__add}>
           <Ionicons
             style={styles.button__icon}
-            onPress={() => nav.navigate("Lista")}
+            onPress={() => nav.navigate("Lista klubów")}
             name="ios-search"
             size={28}
             color="#fff"
