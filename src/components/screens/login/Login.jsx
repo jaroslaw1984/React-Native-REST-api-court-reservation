@@ -15,8 +15,8 @@ import {
 import { UserContext } from "../../context/UserProvider";
 
 const Login = ({ nav }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("tester2");
+  const [password, setPassword] = useState("tester");
   const [version_os, setVersion_os] = useState(Platform.OS.toString());
   const [version_code, setVersion_code] = useState("");
   const { setDataContext } = useContext(UserContext);
