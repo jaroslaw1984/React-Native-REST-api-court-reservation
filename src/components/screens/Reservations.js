@@ -1,11 +1,22 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const Reservations = () => {
+const Stack = createStackNavigator();
+
+const content = () => {
   return (
     <View style={styles.container}>
       <Text>Reservation screen</Text>
     </View>
+  );
+};
+
+const Reservations = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="content" component={content} />
+    </Stack.Navigator>
   );
 };
 
