@@ -76,8 +76,8 @@ const styles = StyleSheet.create({
   club__img: {
     width: 90,
     height: 90,
-    borderRadius: 50,
-    borderWidth: 2,
+    borderRadius: 10,
+    borderWidth: 1,
     borderColor: "#1f4287",
   },
   club__info: {
