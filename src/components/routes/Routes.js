@@ -24,7 +24,7 @@ const Routes = () => {
 
   return (
     <NavigationContainer>
-      {user ? <UserMenu /> : <StackNavigator />}
+      {user ? <UserMenu user={user} /> : <StackNavigator />}
     </NavigationContainer>
   );
 };
