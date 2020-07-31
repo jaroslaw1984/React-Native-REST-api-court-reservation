@@ -18,7 +18,9 @@ const Login = ({ nav }) => {
   const [username, setUsername] = useState("tester2");
   const [password, setPassword] = useState("tester");
   const [version_os, setVersion_os] = useState(Platform.OS.toString());
-  const [version_code, setVersion_code] = useState("");
+  const [version_code, setVersion_code] = useState(
+    Platform.OS.toString() === "ios" ? "1" : "7"
+  );
   const { setDataContext } = useContext(UserContext);
 
   const handleFetchPostData = async () => {
@@ -55,6 +57,7 @@ const Login = ({ nav }) => {
         <TextInput
           style={styles.login__input}
           onChangeText={(value) => setUsername(value)}
+          defaultValue="tester2"
         />
 
         <Text style={styles.password__text}>Password:</Text>
@@ -62,22 +65,23 @@ const Login = ({ nav }) => {
           secureTextEntry={true}
           style={styles.password__input}
           onChangeText={(value) => setPassword(value)}
+          defaultValue="tester"
         />
 
-        <TextInput
+        {/* <TextInput
           minInputToolbarHeight={0}
           renderInputToolbar={() => null}
           style={styles.android__input}
           value={version_os}
           onChangeText={(text) => setVersion_os(text)}
-        />
+        /> */}
 
-        <TextInput
+        {/* <TextInput
           style={styles.version__input}
           // value="7"
           defaultValue="7"
           onChangeText={(value) => setVersion_code(value)}
-        />
+        /> */}
         <Button onPress={() => handleFetchPostData()} title="Login" />
 
         <Text style={styles.createAcc} onPress={() => nav.navigate("Register")}>
