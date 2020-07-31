@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { Text, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, Dimensions, Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,10 +12,12 @@ const TopMenu = ({ navigation }) => {
   return (
     <React.Fragment>
       <View style={styles.header}>
-        <Image
-          source={require("../../../../assets/logo.png")}
-          style={styles.logo}
-        />
+        <View style={styles.logoContent}>
+          <Image
+            source={require("../../../../assets/logo.png")}
+            style={styles.logo}
+          />
+        </View>
         <View style={styles.iconsContainer}>
           <TouchableOpacity>
             <Ionicons
@@ -47,17 +48,19 @@ const TopMenu = ({ navigation }) => {
 const styles = StyleSheet.create({
   header: {
     flex: 1,
-    paddingTop: 10,
+    width: Platform.OS === "ios" ? Dimensions.get("window").width : null,
     flexDirection: "row",
-    justifyContent: "space-between",
+  },
+  logoContent: {
+    flex: 1,
   },
   logo: {
-    width: 70,
+    flex: 1,
+    width: 120,
     height: 70,
     paddingLeft: 170,
   },
   iconsContainer: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
@@ -67,14 +70,12 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   iconUserTrue: {
-    flex: 1,
-    alignSelf: "flex-end",
     width: 50,
     height: 50,
     borderRadius: 50,
     borderWidth: 2,
     borderColor: "#40514e",
-    marginBottom: 10,
+    marginRight: 10,
   },
   iconNotification: {
     flex: 1,
