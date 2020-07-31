@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
         user,
         setDataContext,
         login: () => {
-          const logetUser = user.config.data._parts[0][1];
+          const logetUser = user;
           setUser(logetUser);
           AsyncStorage.setItem("user", logetUser);
         },
