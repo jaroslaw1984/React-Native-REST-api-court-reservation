@@ -31,13 +31,22 @@ const useClubs = (url) => {
     fetchClubs();
   }, [url]);
 
-  return { userClubs, loading };
+  return { userClubs, loading, setUserClubs };
 };
 
 const Clubs = ({ nav }) => {
-  const { userClubs, loading } = useClubs(
+  const { userClubs, loading, setUserClubs } = useClubs(
     "https://korty.org/api/clubs/bookmark/show"
   );
+
+  // console.log(userClubs);
+
+  // this function remove selected card from DOM
+  const handleRemoveClub = (id) => {
+    const newList = userClubs.filter((item) => item.id !== id);
+
+    setUserClubs(newList);
+  };
 
   return (
     <React.Fragment>
@@ -46,7 +55,7 @@ const Clubs = ({ nav }) => {
           <ActivityIndicator size="large" />
         </View>
       ) : (
-        <ClubItem nav={nav} data={userClubs} />
+        <ClubItem nav={nav} data={userClubs} onRemove={handleRemoveClub} />
       )}
     </React.Fragment>
   );
