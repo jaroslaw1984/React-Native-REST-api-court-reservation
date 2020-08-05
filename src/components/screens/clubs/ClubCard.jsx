@@ -1,51 +1,65 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
-const ClubCard = ({ nav, item }) => {
+const ClubCard = ({ nav, item, onModal, clubId, clubName }) => {
   return (
-    <View style={styles.club__card}>
-      <TouchableOpacity
-        onPress={() => nav.navigate("Informacje o klubie", { url: item.url })}
-      >
-        <View style={styles.club__item}>
-          <View
-            style={
-              item.status === 1
-                ? styles.club__container__img
-                : styles.club__container__img__offline
-            }
-          >
-            <Image
-              source={
-                item.logo_src === ""
-                  ? require("../../../../assets/ic_launcher_foreground.png")
-                  : { uri: item.logo_src }
-              }
-              style={styles.club__img}
-            />
-          </View>
-          <View style={styles.club__info}>
-            <Text style={styles.club__name}>{item.name}</Text>
-            {/* if district name exist show it and give styles */}
-            {item.district_name && (
-              <Text
-                style={styles.club__district}
-              >{`(${item.district_name})`}</Text>
-            )}
-            <Text style={styles.club__address}>{item.address}</Text>
-          </View>
-          <View style={styles.club__status}>
+    <View style={styles.club}>
+      <View style={styles.club__card}>
+        <TouchableOpacity
+          onPress={() => nav.navigate("Informacje o klubie", { url: item.url })}
+        >
+          <View style={styles.club__item}>
             <View
               style={
                 item.status === 1
-                  ? styles.club__isOnline
-                  : styles.club__isOffline
+                  ? styles.club__container__img
+                  : styles.club__container__img__offline
               }
-            ></View>
-            <Text style={styles.club__status__text}>
-              {item.status === 1 ? "Online" : "Offline"}
-            </Text>
+            >
+              <Image
+                source={
+                  item.logo_src === ""
+                    ? require("../../../../assets/ic_launcher_foreground.png")
+                    : { uri: item.logo_src }
+                }
+                style={styles.club__img}
+              />
+              <View
+                style={
+                  item.status === 1
+                    ? styles.club__isOnline
+                    : styles.club__isOffline
+                }
+              ></View>
+            </View>
+            <View style={styles.club__info}>
+              <Text style={styles.club__name}>{item.name}</Text>
+              {/* if district name exist show it and give styles */}
+              {item.district_name && (
+                <Text
+                  style={styles.club__district}
+                >{`(${item.district_name})`}</Text>
+              )}
+              <Text style={styles.club__address}>{item.address}</Text>
+            </View>
           </View>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity
+        onPress={() => {
+          onModal();
+          clubId(item.id);
+          clubName(item.name);
+        }}
+      >
+        <View style={styles.club__favorite}>
+          {/* condition if club included in favorite screen */}
+          {item.status === 1 ? (
+            <AntDesign name="heart" size={30} color="#40514e" />
+          ) : (
+            <AntDesign name="hearto" size={30} color="#40514e" />
+          )}
         </View>
       </TouchableOpacity>
     </View>
@@ -55,11 +69,18 @@ const ClubCard = ({ nav, item }) => {
 export default ClubCard;
 
 const styles = StyleSheet.create({
+  club: {
+    flex: 1,
+    flexDirection: "row",
+  },
   club__card: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingTop: 10,
+    paddingBottom: 10,
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#cccc",
   },
   club__item: {
     flex: 1,
@@ -74,22 +95,24 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   club__img: {
-    width: 90,
-    height: 90,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#1f4287",
+    position: "relative",
+    width: 100,
+    height: 100,
+    // borderRadius: 10,
+    // borderWidth: 1,
+    // borderColor: "#1f4287",
   },
   club__info: {
     flex: 2,
-    justifyContent: "center",
-    textAlign: "center",
     flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    marginLeft: 40,
   },
   club__name: {
     fontSize: 20,
     fontWeight: "bold",
-    textAlign: "center",
+    // textAlign: "center",
     lineHeight: 25,
   },
   club__district: {
@@ -102,6 +125,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     opacity: 0.5,
+  },
+  club__favorite: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 15,
   },
   club__info__offline: {
     flex: 1,
@@ -117,19 +146,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  club__status: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  club__status__text: {
-    fontWeight: "bold",
-    paddingTop: 10,
-    textAlign: "center",
-  },
   club__isOnline: {
-    width: 30,
-    height: 30,
+    position: "absolute",
+    bottom: -10,
+    right: -10,
+    width: 22,
+    height: 22,
     borderWidth: 2,
     borderRadius: 50,
     borderColor: "#dee1ec",
@@ -144,8 +166,11 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   club__isOffline: {
-    width: 30,
-    height: 30,
+    position: "absolute",
+    bottom: -10,
+    right: -10,
+    width: 22,
+    height: 22,
     borderWidth: 2,
     borderRadius: 50,
     borderColor: "#dee1ec",
