@@ -38,6 +38,7 @@ const ClubList = ({ nav }) => {
   const { searchClubs, loading } = useAllClubs(
     "https://korty.org/api/clubs/show"
   );
+
   if (searchClubs === "") {
     <View style={styles.club__container}>
       <Text>Niepowodzenie z pobraniem listy klubów.</Text>
