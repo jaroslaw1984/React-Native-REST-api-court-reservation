@@ -5,9 +5,7 @@ import { UserContext } from "../../context/UserProvider";
 import ClubItem from "./ClubItem";
 
 const useClubs = (url) => {
-  const { user } = useContext(UserContext);
-  const [userClubs, setUserClubs] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, handleUserClubs, handleLoading } = useContext(UserContext);
 
   const fetchClubs = async () => {
     const userSessionKey = new FormData();
@@ -18,8 +16,9 @@ const useClubs = (url) => {
       .post(url, userSessionKey)
       .then((respond) => {
         setTimeout(() => {
-          setUserClubs(respond.data.results);
-          setLoading(false);
+          handleUserClubs(respond.data.results);
+          // favoriteUserClubs(respond.data.results);
+          handleLoading();
         }, 1000);
       })
       .catch((err) => {
@@ -30,23 +29,11 @@ const useClubs = (url) => {
   useEffect(() => {
     fetchClubs();
   }, [url]);
-
-  return { userClubs, loading, setUserClubs };
 };
 
 const Clubs = ({ nav }) => {
-  const { userClubs, loading, setUserClubs } = useClubs(
-    "https://korty.org/api/clubs/bookmark/show"
-  );
-
-  // console.log(userClubs);
-
-  // this function remove selected card from DOM
-  const handleRemoveClub = (id) => {
-    const newList = userClubs.filter((item) => item.id !== id);
-
-    setUserClubs(newList);
-  };
+  useClubs("https://korty.org/api/clubs/bookmark/show");
+  const { userClubs, loading, handleRemoveClub } = useContext(UserContext);
 
   return (
     <React.Fragment>
