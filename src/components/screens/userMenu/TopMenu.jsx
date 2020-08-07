@@ -70,15 +70,18 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   iconUserTrue: {
-    width: 50,
-    height: 50,
+    aspectRatio: 600 / 300,
+    width: "100%",
+    height: "100%",
+    maxWidth: 45,
+    maxHeight: 45,
     borderRadius: 50,
     borderWidth: 2,
     borderColor: "#40514e",
     marginRight: 10,
+    marginTop: Platform.OS === "ios" ? null : 25,
   },
   iconNotification: {
-    flex: 1,
     marginRight: 20,
   },
 });
