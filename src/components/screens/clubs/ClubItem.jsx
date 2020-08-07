@@ -6,11 +6,12 @@ import ClubAlertModal from "./ClubAlertModal";
 import { UserContext } from "../../context/UserProvider";
 import axios from "axios";
 
-const ClubItem = ({ nav, data, onRemove }) => {
+const ClubItem = ({ nav, data, onRemove, onAdd }) => {
   const [modalActive, setModalActive] = useState(false);
   const [clubId, setClubId] = useState(Number);
   const [clubName, setClubName] = useState(String);
-  const { user } = useContext(UserContext);
+
+  const { user, clubListScreenActive } = useContext(UserContext);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -34,10 +35,12 @@ const ClubItem = ({ nav, data, onRemove }) => {
     }, 500);
   };
 
+  // get club id
   const getClubId = (id) => {
     setClubId(id);
   };
 
+  // get club name
   const getClubName = (name) => {
     setClubName(name);
   };
@@ -80,9 +83,11 @@ const ClubItem = ({ nav, data, onRemove }) => {
               item={item}
               key={item.id}
               onRemove={onRemove}
+              onAdd={useFavoriteOptions}
               onModal={handleOpenModal}
               clubId={getClubId}
               clubName={getClubName}
+              onAdd={onAdd}
             />
           )}
         />
@@ -91,7 +96,10 @@ const ClubItem = ({ nav, data, onRemove }) => {
         <View style={styles.button__add}>
           <Ionicons
             style={styles.button__icon}
-            onPress={() => nav.navigate("Lista klubów")}
+            onPress={() => {
+              nav.navigate("Lista klubów");
+              clubListScreenActive();
+            }}
             name="ios-search"
             size={28}
             color="#fff"
