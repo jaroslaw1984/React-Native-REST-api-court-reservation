@@ -2,7 +2,16 @@ import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-const ClubCard = ({ nav, item, onModal, clubId, clubName }) => {
+const ClubCard = ({
+  nav,
+  item,
+  onModal,
+  clubId,
+  clubName,
+  onAdd,
+  clubListActive,
+  addClub,
+}) => {
   return (
     <View style={styles.club}>
       <View style={styles.club__card}>
@@ -48,9 +57,14 @@ const ClubCard = ({ nav, item, onModal, clubId, clubName }) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          onModal();
-          clubId(item.id);
-          clubName(item.name);
+          if (!clubListActive) {
+            onModal();
+            clubId(item.id);
+            clubName(item.name);
+          } else {
+            onAdd("add", item.id);
+            addClub(item);
+          }
         }}
       >
         <View style={styles.club__favorite}>
