@@ -1,17 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
-const ClubCard = ({
-  nav,
-  item,
-  onModal,
-  clubId,
-  clubName,
-  onAdd,
-  clubListActive,
-  addClub,
-}) => {
+const ClubCard = ({ nav, item }) => {
   return (
     <View style={styles.club}>
       <View style={styles.club__card}>
@@ -55,27 +45,6 @@ const ClubCard = ({
           </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        onPress={() => {
-          if (!clubListActive) {
-            onModal();
-            clubId(item.id);
-            clubName(item.name);
-          } else {
-            onAdd("add", item.id);
-            addClub(item);
-          }
-        }}
-      >
-        <View style={styles.club__favorite}>
-          {/* condition if club included in favorite screen */}
-          {item.status === 1 ? (
-            <AntDesign name="heart" size={30} color="#40514e" />
-          ) : (
-            <AntDesign name="hearto" size={30} color="#40514e" />
-          )}
-        </View>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -90,7 +59,7 @@ const styles = StyleSheet.create({
   club__card: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     paddingTop: 10,
     paddingBottom: 10,
     // borderBottomWidth: 1,
@@ -121,7 +90,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    marginLeft: 40,
   },
   club__name: {
     fontSize: 20,
@@ -162,8 +130,8 @@ const styles = StyleSheet.create({
   },
   club__isOnline: {
     position: "absolute",
-    bottom: -10,
-    right: -10,
+    bottom: -5,
+    right: 20,
     width: 22,
     height: 22,
     borderWidth: 2,
@@ -181,8 +149,8 @@ const styles = StyleSheet.create({
   },
   club__isOffline: {
     position: "absolute",
-    bottom: -10,
-    right: -10,
+    bottom: -5,
+    right: 20,
     width: 22,
     height: 22,
     borderWidth: 2,
