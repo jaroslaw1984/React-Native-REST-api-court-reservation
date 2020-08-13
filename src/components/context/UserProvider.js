@@ -7,7 +7,6 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userClubs, setUserClubs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [clubList, setClubList] = useState(false);
 
   const setDataContext = (data) => {
     setUser(data);
@@ -15,11 +14,6 @@ export const UserProvider = ({ children }) => {
 
   const handleUserClubs = (data) => {
     setUserClubs(data);
-  };
-
-  // it will check if user clicked on club list
-  const clubListScreenActive = () => {
-    setClubList(true);
   };
 
   // add club to favorite
@@ -44,8 +38,6 @@ export const UserProvider = ({ children }) => {
         user,
         setDataContext,
         userClubs,
-        clubListScreenActive,
-        clubList,
         handleAddClub,
         handleUserClubs,
         handleRemoveClub,
