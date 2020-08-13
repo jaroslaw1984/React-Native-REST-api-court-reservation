@@ -17,7 +17,6 @@ const useClubs = (url) => {
       .then((respond) => {
         setTimeout(() => {
           handleUserClubs(respond.data.results);
-          // favoriteUserClubs(respond.data.results);
           handleLoading();
         }, 1000);
       })
