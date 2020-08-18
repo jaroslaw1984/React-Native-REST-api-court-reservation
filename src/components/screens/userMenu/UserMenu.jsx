@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { WebView } from "react-native-webview";
+import { View, ActivityIndicator } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import TopMenu from "./TopMenu";
 import Clubs from "../clubs/Clubs";
@@ -11,6 +12,7 @@ import RootDrawer from "../../routes/RootDrawer";
 import Gameplay from "../gameplay/Gameplay";
 import Leaderboard from "../leaderboard/Leaderboard";
 import LearningGame from "../learningGame/LearningGame";
+import { UserContext } from "../../context/UserProvider";
 
 const setCookie = ({ user }) => {
   const newCookie = user.data.results.session_key;
@@ -54,17 +56,55 @@ const LearningGameScreen = ({ navigation }) => {
 };
 
 // -------------- Drawer Menu options -------------
-const userProfile = () => {
-  return <WebView source={{ uri: "https://korty.org/profil" }} />;
+
+// function for WebView
+const useWebView = (page) => {
+  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const userSessionKey = user.data.results.session_key;
+
+  const hideSpinner = () => {
+    setLoading(false);
+  };
+  const showSpinner = () => {
+    setLoading(true);
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <WebView
+        source={{
+          uri: `https://korty.org/logowanie/mobile?page=/${page}&sid=${userSessionKey}`,
+        }}
+        onLoadStart={() => showSpinner()}
+        onLoad={() => hideSpinner()}
+      />
+      {loading && (
+        <View
+          style={{
+            flex: 1,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            position: "absolute",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          size="large"
+        >
+          <ActivityIndicator size="large" />
+        </View>
+      )}
+    </View>
+  );
 };
 
-const userSettings = () => {
-  return <WebView source={{ uri: "https://korty.org/ustawienia" }} />;
-};
+const userProfile = () => useWebView("profil");
 
-const managementPanel = () => {
-  return <WebView source={{ uri: "https://korty.org/panel" }} />;
-};
+const userSettings = () => useWebView("ustawienia");
+
+const managementPanel = () => useWebView("panel");
 
 // -----------------------------------------------
 
