@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
 import TopMenu from "../userMenu/TopMenu";
 import { View, ActivityIndicator } from "react-native";
+import { UserContext } from "../../context/UserProvider";
 
 const Stack = createStackNavigator();
 
 const content = () => {
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(UserContext);
+
+  const userSessionKey = user.data.results.session_key;
 
   const hideSpinner = () => {
     setLoading(false);
@@ -19,7 +23,9 @@ const content = () => {
   return (
     <View style={{ flex: 1 }}>
       <WebView
-        source={{ uri: "https://korty.org/moje-rezerwacje" }}
+        source={{
+          uri: `https://korty.org/logowanie/mobile?page=/moje-rezerwacje&sid=${userSessionKey}`,
+        }}
         onLoadStart={() => showSpinner()}
         onLoad={() => hideSpinner()}
       />
