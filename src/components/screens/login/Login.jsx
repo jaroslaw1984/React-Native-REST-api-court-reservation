@@ -37,17 +37,11 @@ const Login = ({ nav }) => {
 
     const respond = await axios.post(url, user);
 
-    // console.log(respond);
-
     if (respond.data.error_code === 2001) {
       Alert.alert("Login", respond.data.error.message);
     } else if (respond.data.error_code === 0) {
       setDataContext(respond);
     }
-
-    // const test = respond.config.data._parts;
-
-    // console.log(test[0][1]);
   };
 
   return (
