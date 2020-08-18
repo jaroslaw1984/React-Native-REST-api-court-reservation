@@ -4,6 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { UserContext } from "../../context/UserProvider";
+import { Avatar } from "react-native-paper";
 
 const TopMenu = ({ navigation }) => {
   const { user } = useContext(UserContext);
@@ -29,7 +30,11 @@ const TopMenu = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             {userIcon ? (
-              <Image source={{ uri: userIcon }} style={styles.iconUserTrue} />
+              <Avatar.Image
+                source={{ uri: userIcon }}
+                size={53}
+                style={styles.iconUserTrue}
+              />
             ) : (
               <FontAwesome
                 name="user-circle"
@@ -70,16 +75,16 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   iconUserTrue: {
-    aspectRatio: 600 / 300,
-    width: "100%",
-    height: "100%",
-    maxWidth: 45,
-    maxHeight: 45,
-    borderRadius: 50,
-    borderWidth: 2,
-    borderColor: "#40514e",
-    marginRight: 10,
-    marginTop: Platform.OS === "ios" ? null : 25,
+    // aspectRatio: 600 / 300,
+    // width: 45,
+    // height: 45,
+    // maxWidth: 45,
+    // maxHeight: 45,
+    // borderRadius: 50,
+    // borderWidth: 2,
+    // borderColor: "#40514e",
+    // marginRight: 10,
+    // marginTop: Platform.OS === "ios" ? null : 25,
   },
   iconNotification: {
     marginRight: 20,
