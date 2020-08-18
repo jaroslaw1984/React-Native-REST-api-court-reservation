@@ -1,29 +1,26 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
+import TopMenu from "../userMenu/TopMenu";
 
 const Stack = createStackNavigator();
 
 const content = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Reservation screen</Text>
-    </View>
-  );
+  return <WebView source={{ uri: "https://korty.org/moje-rezerwacje" }} />;
 };
 
-const Reservations = () => {
+const Reservations = ({ nav }) => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="content" component={content} />
+      <Stack.Screen
+        name="content"
+        component={content}
+        options={{
+          headerTitle: (props) => <TopMenu {...props} navigation={nav} />,
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
 export default Reservations;
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 24,
-  },
-});
