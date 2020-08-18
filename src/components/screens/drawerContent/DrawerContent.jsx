@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Avatar,
   Title,
@@ -52,12 +52,7 @@ const DrawerContent = (props) => {
                   style={styles.iconUserTrue}
                 />
               ) : (
-                <FontAwesome
-                  name="user-circle"
-                  size={35}
-                  color="#40514e"
-                  style={styles.iconUserFalse}
-                />
+                <FontAwesome name="user-circle" size={53} color="#40514e" />
               )}
               <View style={{ marginLeft: 15 }}>
                 <Title style={styles.title}>Witaj {name}</Title>
@@ -79,7 +74,12 @@ const DrawerContent = (props) => {
         <Drawer.Section style={styles.drawerSection}>
           <DrawerItem
             icon={() => (
-              <FontAwesome5 name="user-alt" size={20} color="black" />
+              <FontAwesome5
+                name="user-alt"
+                size={20}
+                color="black"
+                style={{ marginRight: 5 }}
+              />
             )}
             label="Profil gracza"
             onPress={() => {
@@ -175,9 +175,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 12,
     paddingHorizontal: 16,
-  },
-  iconUserFalse: {
-    flex: 1,
-    alignSelf: "flex-end",
   },
 });
