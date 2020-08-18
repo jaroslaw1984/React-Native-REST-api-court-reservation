@@ -40,7 +40,7 @@ const TopMenu = ({ navigation }) => {
                 name="user-circle"
                 size={35}
                 color="#40514e"
-                style={styles.iconUserFalse}
+                style={Platform.OS === "ios" ? { marginRight: 10 } : null}
               />
             )}
           </TouchableOpacity>
@@ -69,22 +69,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-  },
-  iconUserFalse: {
-    flex: 1,
-    alignSelf: "flex-end",
-  },
-  iconUserTrue: {
-    // aspectRatio: 600 / 300,
-    // width: 45,
-    // height: 45,
-    // maxWidth: 45,
-    // maxHeight: 45,
-    // borderRadius: 50,
-    // borderWidth: 2,
-    // borderColor: "#40514e",
-    // marginRight: 10,
-    // marginTop: Platform.OS === "ios" ? null : 25,
   },
   iconNotification: {
     marginRight: 20,
