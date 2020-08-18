@@ -37,7 +37,7 @@ const Login = ({ nav }) => {
 
     const respond = await axios.post(url, user);
 
-    console.log(respond);
+    // console.log(respond);
 
     if (respond.data.error_code === 2001) {
       Alert.alert("Login", respond.data.error.message);
