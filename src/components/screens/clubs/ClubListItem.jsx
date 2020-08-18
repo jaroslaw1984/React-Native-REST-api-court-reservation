@@ -85,7 +85,6 @@ const ClubListItem = ({ nav, data }) => {
         .then((response) => {
           if (response.data.error_code === 0) {
             handleRemoveClub(cardId);
-            console.log(response);
           } else {
             Alert.alert("Wystąpił błąd!", response.data.error.message),
               [
