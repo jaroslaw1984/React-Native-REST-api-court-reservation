@@ -6,6 +6,7 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userClubs, setUserClubs] = useState([]);
+  const [searchClubs, setSearchClubs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const setDataContext = (data) => {
@@ -32,12 +33,18 @@ export const UserProvider = ({ children }) => {
     setUserClubs(newList);
   };
 
+  const handleSearchClubs = (data) => {
+    setSearchClubs(data);
+  };
+
   return (
     <UserContext.Provider
       value={{
         user,
         setDataContext,
         userClubs,
+        searchClubs,
+        handleSearchClubs,
         handleAddClub,
         handleUserClubs,
         handleRemoveClub,
