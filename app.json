@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "myNewProject",
-    "slug": "myNewProject",
+    "name": "Korty.ORG Mobile",
+    "slug": "korty-org-mobile",
     "platforms": [
       "ios",
       "android",
