@@ -5,9 +5,13 @@ import axios from "axios";
 import ClubListItem from "./ClubListItem";
 
 const useAllClubs = (url) => {
-  const { user } = useContext(UserContext);
-  const [searchClubs, setSearchClubs] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    user,
+    searchClubs,
+    handleSearchClubs,
+    loading,
+    handleLoading,
+  } = useContext(UserContext);
 
   const fetchAllClubs = async () => {
     const getAllClubs = new FormData();
@@ -19,8 +23,8 @@ const useAllClubs = (url) => {
     await axios
       .post(url, getAllClubs)
       .then((respond) => {
-        setSearchClubs(respond.data.results);
-        setLoading(false);
+        handleSearchClubs(respond.data.results);
+        handleLoading(false);
       })
       .catch((err) => {
         console.error(err);
