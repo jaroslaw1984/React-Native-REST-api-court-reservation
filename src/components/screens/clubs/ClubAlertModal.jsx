@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Button, StyleSheet, Text, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { UserContext } from "../../context/UserProvider";
+import axios from "axios";
 
 const ClubAlertModal = ({ onClose, onDelete, clubId, clubName }) => {
+  const { user, handleSearchClubs, handleLoading } = useContext(UserContext);
+
+  const fetchAllClubs = async () => {
+    const getAllClubs = new FormData();
+
+    getAllClubs.append("session_key", user.data.results.session_key);
+    getAllClubs.append("location_level", user.data.results.location.level);
+    getAllClubs.append("location_id", user.data.results.location.id);
+
+    await axios
+      .post("https://korty.org/api/clubs/show", getAllClubs)
+      .then((respond) => {
+        handleSearchClubs(respond.data.results);
+        handleLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
   return (
     <View style={styles.modal__containter}>
       <View style={styles.modal__warning__icon}>
@@ -21,6 +42,7 @@ const ClubAlertModal = ({ onClose, onDelete, clubId, clubName }) => {
           onPress={() => {
             onDelete("remove", clubId);
             onClose();
+            fetchAllClubs();
           }}
         />
       </View>
