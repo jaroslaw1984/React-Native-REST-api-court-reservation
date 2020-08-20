@@ -22,8 +22,6 @@ const setCookie = ({ user }) => {
 
 // This show details about club and load the webpage of club info
 const AboutClub = ({ route }) => {
-  // const sessionKey = user.data.results.session_key;
-
   const { url } = route.params;
   return <WebView source={{ uri: url }} />;
 };
@@ -161,7 +159,7 @@ const BottomTabStack = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "#325D88",
+        activeTintColor: "#2f89fc",
         inactiveTintColor: "gray",
       }}
     >
@@ -176,7 +174,7 @@ const BottomTabStack = () => {
 
 // Drawer left menu
 const UserMenu = ({ user }) => {
-  console.log(user.data.results.session_key);
+  // console.log(user.data.results.session_key);
   return <RootDrawer bottomStack={BottomTabStack} />;
 };
 
