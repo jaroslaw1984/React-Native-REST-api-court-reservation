@@ -15,15 +15,19 @@ import LearningGame from "../learningGame/LearningGame";
 import { UserContext } from "../../context/UserProvider";
 
 const setCookie = ({ user }) => {
-  const newCookie = user.data.results.session_key;
-
-  document.cookie = `session_key_api=${newCookie}; expires=Tue, 25-Aug-2020 10:39:25 GMT; Max-Age=2678400; path=/`;
+  const cookie = user.data.results.session_key;
+  return cookie;
+  // document.cookie = `session_key_api=${newCookie}; expires=Tue, 25-Aug-2020 10:39:25 GMT; Max-Age=2678400; path=/`;
 };
 
 // This show details about club and load the webpage of club info
 const AboutClub = ({ route }) => {
+  const { user } = useContext(UserContext);
+  const userSessionKey = user.data.results.session_key;
+
   const { url } = route.params;
-  return <WebView source={{ uri: url }} />;
+  console.log(url);
+  return <WebView source={{ uri: `${url}?sid=${userSessionKey}` }} />;
 };
 
 // This show all list clubs
