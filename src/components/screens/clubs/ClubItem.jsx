@@ -10,6 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ClubCard from "./ClubCard";
 import { UserContext } from "../../context/UserProvider";
 import axios from "axios";
+import ClubEmptyData from "./ClubEmptyData";
 
 const ClubItem = ({ nav, data }) => {
   const { user, handleUserClubs, handleLoading, loading } = useContext(
@@ -35,11 +36,7 @@ const ClubItem = ({ nav, data }) => {
   return (
     <React.Fragment>
       {data.length === 0 ? (
-        <View style={styles.text__content}>
-          <Text style={styles.text__noData}>
-            Dodaj kluby, z kótrych będziesz najczęściej korzystał
-          </Text>
-        </View>
+        <ClubEmptyData nav={nav} />
       ) : (
         <FlatList
           keyExtractor={(item) => item.id.toString()}
@@ -63,13 +60,7 @@ const ClubItem = ({ nav, data }) => {
             nav.navigate("Lista klubów");
           }}
         >
-          <View
-            style={
-              data.length === 0
-                ? styles.button__add__noData
-                : styles.button__add
-            }
-          >
+          <View style={styles.button__search}>
             <Ionicons
               style={styles.button__icon}
               name="ios-search"
@@ -91,19 +82,9 @@ const styles = StyleSheet.create({
     right: 10,
   },
   button__container__noData: {
-    position: "absolute",
-    top: 100,
-    right: 170,
+    display: "none",
   },
-  button__add__noData: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
-    backgroundColor: "#2f89fc",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button__add: {
+  button__search: {
     width: 55,
     height: 55,
     borderRadius: 50,
@@ -113,14 +94,5 @@ const styles = StyleSheet.create({
   },
   button__icon: {
     color: "#fff",
-  },
-  text__content: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  text__noData: {
-    textAlign: "center",
-    fontSize: 25,
-    marginHorizontal: 10,
   },
 });
