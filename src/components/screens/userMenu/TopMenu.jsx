@@ -14,10 +14,12 @@ const TopMenu = ({ navigation }) => {
     <React.Fragment>
       <View style={styles.header}>
         <View style={styles.logoContent}>
-          <Image
-            source={require("../../../../assets/logo.png")}
-            style={styles.logo}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("Kluby")}>
+            <Image
+              source={require("../../../../assets/logo.png")}
+              style={styles.logo}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.iconsContainer}>
           {/* The notification button will be active at future version */}
