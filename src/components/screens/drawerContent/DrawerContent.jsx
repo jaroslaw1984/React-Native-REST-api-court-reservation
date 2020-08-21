@@ -103,7 +103,8 @@ const DrawerContent = (props) => {
             onPress={() => props.navigation.navigate("Panel zarządzania")}
           />
         </Drawer.Section>
-        <Drawer.Section title="Zmiana języka">
+        {/* This section will be added at next version */}
+        {/* <Drawer.Section title="Zmiana języka">
           <TouchableRipple
             onPress={() => {
               handleChangeLanguage();
@@ -117,7 +118,7 @@ const DrawerContent = (props) => {
               </View>
             </View>
           </TouchableRipple>
-        </Drawer.Section>
+        </Drawer.Section> */}
       </DrawerContentScrollView>
       <Drawer.Section style={styles.bottomDrawerSection}>
         <DrawerItem
