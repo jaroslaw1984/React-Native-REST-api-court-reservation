@@ -20,14 +20,15 @@ const TopMenu = ({ navigation }) => {
           />
         </View>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity>
+          {/* The notification button will be active at future version */}
+          {/* <TouchableOpacity>
             <Ionicons
               name="ios-notifications"
               size={35}
               color="#40514e"
               style={styles.iconNotification}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             {userIcon ? (
               <Avatar.Image
