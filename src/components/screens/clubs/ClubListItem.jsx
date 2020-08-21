@@ -10,9 +10,13 @@ const ClubListItem = ({ nav, data }) => {
   const [clubId, setClubId] = useState(Number);
   const [clubName, setClubName] = useState(String);
 
-  const { user, handleAddClub, userClubs, handleRemoveClub } = useContext(
-    UserContext
-  );
+  const {
+    user,
+    handleAddClub,
+    userClubs,
+    handleRemoveClub,
+    logout,
+  } = useContext(UserContext);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -71,6 +75,7 @@ const ClubListItem = ({ nav, data }) => {
                   text: "OK",
                 },
               ];
+            logout();
           }
         })
         .catch((err) => {
@@ -92,6 +97,7 @@ const ClubListItem = ({ nav, data }) => {
                   text: "OK",
                 },
               ];
+            logout();
           }
         })
         .catch((err) => {
