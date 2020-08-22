@@ -4,15 +4,17 @@ import PropTypes from "prop-types";
 import {
   StyleSheet,
   View,
-  TextInput,
   Text,
-  Button,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
   Alert,
+  Image,
+  Dimensions,
 } from "react-native";
+import { Button, TextInput } from "react-native-paper";
 import { UserContext } from "../../context/UserProvider";
+import { globalStyles } from "../../../../styles/global";
 
 const Login = ({ nav }) => {
   const [username, setUsername] = useState("tester2");
@@ -47,19 +49,29 @@ const Login = ({ nav }) => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.login__container}>
-        <Text style={styles.login__text}>Login:</Text>
+        <Image
+          source={require("../../../../assets/splash.png")}
+          style={styles.img}
+        />
         <TextInput
-          style={styles.login__input}
+          style={styles.user__input}
+          label="Nazwa użytkownika lub e-mail"
+          value={username}
+          underlineColor={globalStyles.buttonConf.color}
           onChangeText={(value) => setUsername(value)}
           defaultValue="tester2"
+          mode={"outlined"}
         />
 
-        <Text style={styles.password__text}>Password:</Text>
         <TextInput
           secureTextEntry={true}
+          label="Hasło"
+          value={password}
           style={styles.password__input}
           onChangeText={(value) => setPassword(value)}
+          underlineColor={globalStyles.buttonConf.color}
           defaultValue="tester"
+          mode={"outlined"}
         />
 
         {/* <TextInput
@@ -76,7 +88,14 @@ const Login = ({ nav }) => {
           defaultValue="7"
           onChangeText={(value) => setVersion_code(value)}
         /> */}
-        <Button onPress={() => handleFetchPostData()} title="Login" />
+        <Button
+          mode="contained"
+          color={globalStyles.buttonConf.color}
+          onPress={() => handleFetchPostData()}
+          style={styles.button}
+        >
+          Zaloguj się
+        </Button>
 
         <Text style={styles.createAcc} onPress={() => nav.navigate("Register")}>
           Stwórz konto
@@ -94,41 +113,28 @@ const Login = ({ nav }) => {
 
 const styles = StyleSheet.create({
   login__container: {
-    alignItems: "center",
+    height: Dimensions.get("window").height,
     justifyContent: "center",
-    marginTop: 50,
+    alignItems: "center",
+    backgroundColor: "#ffff",
   },
-  login__input: {
-    width: 200,
-    borderWidth: 1,
-    borderColor: "#777",
-    borderRadius: 10,
-    padding: 8,
+  img: {
+    width: 300,
+    height: 300,
+  },
+  user__input: {
+    width: 300,
+    backgroundColor: "#ffff",
     margin: 10,
+    borderColor: "red",
   },
   password__input: {
-    width: 200,
-    borderWidth: 1,
-    borderColor: "#777",
-    borderRadius: 10,
-    padding: 8,
+    width: 300,
+    backgroundColor: "#ffff",
     margin: 10,
   },
-  android__input: {
-    width: 200,
-    borderWidth: 1,
-    borderColor: "#777",
-    borderRadius: 10,
-    padding: 8,
-    margin: 10,
-  },
-  version__input: {
-    width: 200,
-    borderWidth: 1,
-    borderColor: "#777",
-    borderRadius: 10,
-    padding: 8,
-    margin: 10,
+  button: {
+    marginTop: 15,
   },
   createAcc: {
     paddingTop: 20,
@@ -137,10 +143,6 @@ const styles = StyleSheet.create({
   forgotPass: {
     paddingTop: 20,
     color: "green",
-  },
-  loading_Indicator: {
-    flex: 1,
-    justifyContent: "center",
   },
 });
 
