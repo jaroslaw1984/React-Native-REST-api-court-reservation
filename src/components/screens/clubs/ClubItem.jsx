@@ -48,13 +48,7 @@ const ClubItem = ({ nav, data }) => {
           )}
         />
       )}
-      <View
-        style={
-          data.length === 0
-            ? styles.button__container__noData
-            : styles.button__container
-        }
-      >
+      <View style={styles.button__container}>
         <TouchableOpacity
           onPress={() => {
             nav.navigate("Lista klubów");
@@ -64,7 +58,7 @@ const ClubItem = ({ nav, data }) => {
             <Ionicons
               style={styles.button__icon}
               name="ios-search"
-              size={data.length === 0 ? 50 : 28}
+              size={28}
               color="#fff"
             />
           </View>
@@ -80,9 +74,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 10,
     right: 10,
-  },
-  button__container__noData: {
-    display: "none",
   },
   button__search: {
     width: 55,
