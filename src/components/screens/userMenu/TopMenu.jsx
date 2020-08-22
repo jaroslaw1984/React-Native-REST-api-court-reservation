@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    flex: 1,
     width: 120,
-    height: 70,
-    paddingLeft: 170,
+    height: 50,
+    paddingLeft: 190,
+    resizeMode: "cover",
   },
   iconsContainer: {
     flexDirection: "row",
