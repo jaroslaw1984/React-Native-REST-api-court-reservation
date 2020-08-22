@@ -23,7 +23,7 @@ const ClubEmptyData = ({ nav }) => {
       </View>
       <View style={styles.text__container}>
         <Text style={styles.text}>
-          Dodaj kluby, z kótrych będziesz najczęściej korzystał
+          Dodaj kluby, z których będziesz najczęściej korzystał
         </Text>
       </View>
     </View>
