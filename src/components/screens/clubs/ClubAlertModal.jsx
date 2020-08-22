@@ -43,12 +43,14 @@ const ClubAlertModal = ({ onClose, onDelete, clubId, clubName }) => {
           color={globalStyles.buttonConf.color}
           onPress={() => onClose()}
           style={{ marginRight: 50 }}
+          uppercase={false}
         >
           Anuluj
         </Button>
         <Button
           mode="contained"
           color={globalStyles.buttonConf.color}
+          uppercase={false}
           onPress={() => {
             onDelete("remove", clubId);
             onClose();
