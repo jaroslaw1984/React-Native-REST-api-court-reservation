@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
-import { View, Button, StyleSheet, Text, Dimensions } from "react-native";
+import { View, StyleSheet, Text, Dimensions } from "react-native";
+import { Button } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { UserContext } from "../../context/UserProvider";
+import { globalStyles } from "../../../../styles/global";
 import axios from "axios";
 
 const ClubAlertModal = ({ onClose, onDelete, clubId, clubName }) => {
@@ -36,15 +38,25 @@ const ClubAlertModal = ({ onClose, onDelete, clubId, clubName }) => {
         </Text>
       </View>
       <View style={styles.modal__navBtn}>
-        <Button title="Anuluj" onPress={() => onClose()} />
         <Button
-          title="Usuń"
+          mode="contained"
+          color={globalStyles.buttonConf.color}
+          onPress={() => onClose()}
+          style={{ marginRight: 50 }}
+        >
+          Anuluj
+        </Button>
+        <Button
+          mode="contained"
+          color={globalStyles.buttonConf.color}
           onPress={() => {
             onDelete("remove", clubId);
             onClose();
             fetchAllClubs();
           }}
-        />
+        >
+          Usuń
+        </Button>
       </View>
     </View>
   );
