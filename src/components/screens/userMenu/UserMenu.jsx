@@ -12,6 +12,7 @@ import RootDrawer from "../../routes/RootDrawer";
 import Gameplay from "../gameplay/Gameplay";
 import Leaderboard from "../leaderboard/Leaderboard";
 import LearningGame from "../learningGame/LearningGame";
+import WebviewStructure from "../../routes/WebviewStructure";
 import { UserContext } from "../../context/UserProvider";
 
 const setCookie = ({ user }) => {
@@ -60,53 +61,70 @@ const LearningGameScreen = ({ navigation }) => {
 // -------------- Drawer Menu options -------------
 
 // function for WebView
-const useWebView = (page) => {
-  const { user } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
-  const userSessionKey = user.data.results.session_key;
+// const useWebView = (page) => {
+//   const { user } = useContext(UserContext);
+//   const [loading, setLoading] = useState(true);
+//   const userSessionKey = user.data.results.session_key;
 
-  const hideSpinner = () => {
-    setLoading(false);
-  };
-  const showSpinner = () => {
-    setLoading(true);
-  };
+//   const hideSpinner = () => {
+//     setLoading(false);
+//   };
+//   const showSpinner = () => {
+//     setLoading(true);
+//   };
 
-  return (
-    <View style={{ flex: 1 }}>
-      <WebView
-        source={{
-          uri: `https://korty.org/logowanie/mobile?page=/${page}&sid=${userSessionKey}`,
-        }}
-        onLoadStart={() => showSpinner()}
-        onLoad={() => hideSpinner()}
-      />
-      {loading && (
-        <View
-          style={{
-            flex: 1,
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            position: "absolute",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          size="large"
-        >
-          <ActivityIndicator size="large" />
-        </View>
-      )}
-    </View>
-  );
+//   return (
+//     <View style={{ flex: 1 }}>
+//       <WebView
+//         source={{
+//           uri: `https://korty.org/logowanie/mobile?page=/${page}&sid=${userSessionKey}`,
+//         }}
+//         onLoadStart={() => showSpinner()}
+//         onLoad={() => hideSpinner()}
+//       />
+//       {loading && (
+//         <View
+//           style={{
+//             flex: 1,
+//             left: 0,
+//             right: 0,
+//             top: 0,
+//             bottom: 0,
+//             position: "absolute",
+//             alignItems: "center",
+//             justifyContent: "center",
+//           }}
+//           size="large"
+//         >
+//           <ActivityIndicator size="large" />
+//         </View>
+//       )}
+//     </View>
+//   );
+// };
+
+// const userProfile = () => useWebView("profil");
+
+// const userSettings = () => useWebView("ustawienia");
+
+// const managementPanel = () => useWebView("panel");
+
+// second version for WebView
+
+const userProfile = ({ navigation }) => {
+  const url = "https://korty.org/logowanie/mobile?page=/profil";
+  return <WebviewStructure nav={navigation} url={url} />;
 };
 
-const userProfile = () => useWebView("profil");
+const userSettings = ({ navigation }) => {
+  const url = "https://korty.org/logowanie/mobile?page=/ustawienia";
+  return <WebviewStructure nav={navigation} url={url} />;
+};
 
-const userSettings = () => useWebView("ustawienia");
-
-const managementPanel = () => useWebView("panel");
+const managementPanel = ({ navigation }) => {
+  const url = "https://korty.org/logowanie/mobile?page=/panel";
+  return <WebviewStructure nav={navigation} url={url} />;
+};
 
 // -----------------------------------------------
 
