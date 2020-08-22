@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 const ClubEmptyData = ({ nav }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.button__container}>
+      {/* <View style={styles.button__container}>
         <TouchableOpacity
           onPress={() => {
             nav.navigate("Lista klubów");
@@ -20,7 +20,7 @@ const ClubEmptyData = ({ nav }) => {
             />
           </View>
         </TouchableOpacity>
-      </View>
+      </View> */}
       <View style={styles.text__container}>
         <Text style={styles.text}>
           Dodaj kluby, z których będziesz najczęściej korzystał
@@ -36,24 +36,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  button__container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button__search: {
-    width: 80,
-    height: 80,
-    borderRadius: 50,
-    backgroundColor: "#2f89fc",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button__icon: {
-    color: "#fff",
-  },
+  // button__container: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // button__search: {
+  //   width: 80,
+  //   height: 80,
+  //   borderRadius: 50,
+  //   backgroundColor: "#2f89fc",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
+  // button__icon: {
+  //   color: "#fff",
+  // },
   text__container: {
     flex: 1,
+    justifyContent: "center",
   },
   text: {
     textAlign: "center",
