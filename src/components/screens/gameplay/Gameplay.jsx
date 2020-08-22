@@ -1,10 +1,10 @@
 import React from "react";
-import WebviewBottomStructure from "../../routes/WebviewBottomStructure";
+import WebviewStructure from "../../routes/WebviewStructure";
 
 const Gameplay = ({ nav }) => {
   const url = "https://korty.org/logowanie/mobile?page=/rozgrywki";
 
-  return <WebviewBottomStructure nav={nav} url={url} />;
+  return <WebviewStructure nav={nav} url={url} />;
 };
 
 export default Gameplay;

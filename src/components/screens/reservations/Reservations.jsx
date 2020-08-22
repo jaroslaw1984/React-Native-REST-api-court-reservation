@@ -1,10 +1,10 @@
 import React from "react";
-import WebviewBottomStructure from "../../routes/WebviewBottomStructure";
+import Webviewtructure from "../../routes/WebviewStructure";
 
 const Reservations = ({ nav }) => {
   const url = "https://korty.org/logowanie/mobile?page=/moje-rezerwacje";
 
-  return <WebviewBottomStructure nav={nav} url={url} />;
+  return <WebviewStructure nav={nav} url={url} />;
 };
 
 export default Reservations;
