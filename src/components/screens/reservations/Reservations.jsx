@@ -1,5 +1,5 @@
 import React from "react";
-import Webviewtructure from "../../routes/WebviewStructure";
+import WebviewStructure from "../../routes/WebviewStructure";
 
 const Reservations = ({ nav }) => {
   const url = "https://korty.org/logowanie/mobile?page=/moje-rezerwacje";
