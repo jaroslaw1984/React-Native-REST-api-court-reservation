@@ -22,13 +22,15 @@ const setCookie = ({ user }) => {
 };
 
 // This show details about club and load the webpage of club info
-const AboutClub = ({ route }) => {
+const AboutClub = ({ route, navigation }) => {
   const { user } = useContext(UserContext);
   const userSessionKey = user.data.results.session_key;
 
   const { url } = route.params;
   console.log(url);
-  return <WebView source={{ uri: `${url}?sid=${userSessionKey}` }} />;
+  return (
+    <WebviewStructure url={`${url}?sid=${userSessionKey}`} nav={navigation} />
+  );
 };
 
 // This show all list clubs
