@@ -6,6 +6,8 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  ScrollView,
   Keyboard,
   Platform,
   Alert,
@@ -47,34 +49,39 @@ const Login = ({ nav }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.login__container}>
-        <Image
-          source={require("../../../../assets/splash.png")}
-          style={styles.img}
-        />
-        <TextInput
-          style={styles.user__input}
-          label="Nazwa użytkownika lub e-mail"
-          value={username}
-          underlineColor={globalStyles.buttonConf.color}
-          onChangeText={(value) => setUsername(value)}
-          defaultValue="tester2"
-          mode={"outlined"}
-        />
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      <KeyboardAvoidingView enabled>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.login__container}>
+            <Image
+              source={require("../../../../assets/splash.png")}
+              style={styles.img}
+            />
+            <TextInput
+              style={styles.user__input}
+              label="Nazwa użytkownika lub e-mail"
+              value={username}
+              underlineColor={globalStyles.buttonConf.color}
+              onChangeText={(value) => setUsername(value)}
+              defaultValue="tester2"
+              mode={"outlined"}
+            />
 
-        <TextInput
-          secureTextEntry={true}
-          label="Hasło"
-          value={password}
-          style={styles.password__input}
-          onChangeText={(value) => setPassword(value)}
-          underlineColor={globalStyles.buttonConf.color}
-          defaultValue="tester"
-          mode={"outlined"}
-        />
+            <TextInput
+              secureTextEntry={true}
+              label="Hasło"
+              value={password}
+              style={styles.password__input}
+              onChangeText={(value) => setPassword(value)}
+              underlineColor={globalStyles.buttonConf.color}
+              defaultValue="tester"
+              mode={"outlined"}
+            />
 
-        {/* <TextInput
+            {/* <TextInput
           minInputToolbarHeight={0}
           renderInputToolbar={() => null}
           style={styles.android__input}
@@ -82,32 +89,37 @@ const Login = ({ nav }) => {
           onChangeText={(text) => setVersion_os(text)}
         /> */}
 
-        {/* <TextInput
+            {/* <TextInput
           style={styles.version__input}
           // value="7"
           defaultValue="7"
           onChangeText={(value) => setVersion_code(value)}
         /> */}
-        <Button
-          mode="contained"
-          color={globalStyles.buttonConf.color}
-          onPress={() => handleFetchPostData()}
-          style={styles.button}
-        >
-          Zaloguj się
-        </Button>
+            <Button
+              mode="contained"
+              color={globalStyles.buttonConf.color}
+              onPress={() => handleFetchPostData()}
+              style={styles.button}
+            >
+              Zaloguj się
+            </Button>
 
-        <Text style={styles.createAcc} onPress={() => nav.navigate("Register")}>
-          Stwórz konto
-        </Text>
-        <Text
-          style={styles.forgotPass}
-          onPress={() => nav.navigate("Recovery")}
-        >
-          Zapomniałeś hasła ?
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
+            <Text
+              style={styles.createAcc}
+              onPress={() => nav.navigate("Register")}
+            >
+              Stwórz konto
+            </Text>
+            <Text
+              style={styles.forgotPass}
+              onPress={() => nav.navigate("Recovery")}
+            >
+              Zapomniałeś hasła ?
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
@@ -119,8 +131,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffff",
   },
   img: {
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 250,
   },
   user__input: {
     width: 300,
