@@ -14,6 +14,7 @@ import Leaderboard from "../leaderboard/Leaderboard";
 import LearningGame from "../learningGame/LearningGame";
 import WebviewStructure from "../../routes/WebviewStructure";
 import { UserContext } from "../../context/UserProvider";
+import UserIcon from "./UserIcon";
 
 const setCookie = ({ user }) => {
   const cookie = user.data.results.session_key;
@@ -23,15 +24,14 @@ const setCookie = ({ user }) => {
 
 // This show details about club and load the webpage of club info
 const AboutClub = ({ route, navigation }) => {
-  const { user } = useContext(UserContext);
-  const userSessionKey = user.data.results.session_key;
-
   const { url } = route.params;
-  console.log(url);
-  return (
-    <WebviewStructure url={`${url}?sid=${userSessionKey}`} nav={navigation} />
-  );
+
+  const club = `https://korty.org/logowanie/mobile?club=${url}`;
+
+  return <WebviewStructure url={club} nav={navigation} />;
 };
+
+// -------------- All bottom menu  -------------
 
 // This show all list clubs
 const AllClubs = ({ navigation }) => {
@@ -59,6 +59,7 @@ const LeaderboardScreen = ({ navigation }) => {
 const LearningGameScreen = ({ navigation }) => {
   return <LearningGame nav={navigation} />;
 };
+// -----------------------------------------------
 
 // -------------- Drawer Menu options -------------
 
@@ -115,17 +116,23 @@ const LearningGameScreen = ({ navigation }) => {
 
 const userProfile = ({ navigation }) => {
   const url = "https://korty.org/logowanie/mobile?page=/profil";
-  return <WebviewStructure nav={navigation} url={url} />;
+  const name = "Profil gracza";
+
+  return <WebviewStructure nav={navigation} url={url} name={name} />;
 };
 
 const userSettings = ({ navigation }) => {
   const url = "https://korty.org/logowanie/mobile?page=/ustawienia";
-  return <WebviewStructure nav={navigation} url={url} />;
+  const name = "Ustawienia konta";
+
+  return <WebviewStructure nav={navigation} url={url} name={name} />;
 };
 
 const managementPanel = ({ navigation }) => {
   const url = "https://korty.org/logowanie/mobile?page=/panel";
-  return <WebviewStructure nav={navigation} url={url} />;
+  const name = "Panel zarządzania";
+
+  return <WebviewStructure nav={navigation} url={url} name={name} />;
 };
 
 // -----------------------------------------------
@@ -147,11 +154,51 @@ const HomeStackScreen = ({ navigation }) => {
           ),
         }}
       />
-      <HomeStack.Screen name="Lista klubów" component={AllClubs} />
-      <HomeStack.Screen name="Informacje o klubie" component={AboutClub} />
-      <HomeStack.Screen name="Profil gracza" component={userProfile} />
-      <HomeStack.Screen name="Ustawienia konta" component={userSettings} />
-      <HomeStack.Screen name="Panel zarządzania" component={managementPanel} />
+      <HomeStack.Screen
+        name="Lista klubów"
+        component={AllClubs}
+        options={{
+          headerRight: (props) => (
+            <UserIcon {...props} navigation={navigation} />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="Informacje o klubie"
+        component={AboutClub}
+        options={{
+          headerRight: (props) => (
+            <UserIcon {...props} navigation={navigation} />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="Profil gracza"
+        component={userProfile}
+        options={{
+          headerRight: (props) => (
+            <UserIcon {...props} navigation={navigation} />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="Ustawienia konta"
+        component={userSettings}
+        options={{
+          headerRight: (props) => (
+            <UserIcon {...props} navigation={navigation} />
+          ),
+        }}
+      />
+      <HomeStack.Screen
+        name="Panel zarządzania"
+        component={managementPanel}
+        options={{
+          headerRight: (props) => (
+            <UserIcon {...props} navigation={navigation} />
+          ),
+        }}
+      />
     </HomeStack.Navigator>
   );
 };
