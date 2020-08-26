@@ -1,15 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Image, StyleSheet, View, Dimensions, Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { FontAwesome } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
-import { UserContext } from "../../context/UserProvider";
-import { Avatar } from "react-native-paper";
+import UserIcon from "./UserIcon";
 
 const TopMenu = ({ navigation }) => {
-  const { user } = useContext(UserContext);
-  const userIcon = user.data.results.logo_src;
-
   return (
     <React.Fragment>
       <View style={styles.header}>
@@ -31,22 +25,7 @@ const TopMenu = ({ navigation }) => {
               style={styles.iconNotification}
             />
           </TouchableOpacity> */}
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-            {userIcon ? (
-              <Avatar.Image
-                source={{ uri: userIcon }}
-                size={53}
-                style={styles.iconUserTrue}
-              />
-            ) : (
-              <FontAwesome
-                name="user-circle"
-                size={35}
-                color="#40514e"
-                style={Platform.OS === "ios" ? { marginRight: 10 } : null}
-              />
-            )}
-          </TouchableOpacity>
+          <UserIcon navigation={navigation} />
         </View>
       </View>
     </React.Fragment>
