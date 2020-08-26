@@ -1,14 +1,10 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { WebView } from "react-native-webview";
 import { createStackNavigator } from "@react-navigation/stack";
-import TopMenu from "../screens/userMenu/TopMenu";
-import {
-  StyleSheet,
-  ActivityIndicator,
-  View,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+// import TopMenu from "../screens/userMenu/TopMenu";
+import UserIcon from "../screens/userMenu/UserIcon";
+import HeaderBackIcon from "../screens/userMenu/HeaderBackIcon";
+import { ActivityIndicator, View, BackHandler } from "react-native";
 import { UserContext } from "../context/UserProvider";
 
 const Stack = createStackNavigator();
@@ -19,17 +15,17 @@ const Content = ({ url }) => {
 
   // navigation for WebView
   const [canGoBack, setCanGoBack] = useState(false);
-  const [canGoForward, setCanGoForward] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
 
   const webviewRef = useRef(null);
 
   const backButtonHandler = () => {
-    if (webviewRef.current) webviewRef.current.goBack();
-  };
-
-  const frontButtonHandler = () => {
-    if (webviewRef.current) webviewRef.current.goForward();
+    if (webviewRef.current) {
+      webviewRef.current.goBack();
+      console.log(webviewRef.current.goBack());
+      return true;
+    }
+    return false;
   };
 
   const userSessionKey = user.data.results.session_key;
@@ -40,6 +36,17 @@ const Content = ({ url }) => {
   const showSpinner = () => {
     setLoading(true);
   };
+
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () =>
+      backButtonHandler()
+    );
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", () =>
+        backButtonHandler()
+      );
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -52,18 +59,10 @@ const Content = ({ url }) => {
         ref={webviewRef}
         onNavigationStateChange={(navState) => {
           setCanGoBack(navState.canGoBack);
-          setCanGoForward(navState.canGoForward);
           setCurrentUrl(navState.url);
         }}
+        allowsBackForwardNavigationGestures
       />
-      <View style={styles.tabBarContainer}>
-        <TouchableOpacity onPress={backButtonHandler}>
-          <Text style={styles.button}>Wróć</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={frontButtonHandler}>
-          <Text style={styles.button}>Dalej</Text>
-        </TouchableOpacity>
-      </View>
       {loading && (
         <View
           style={{
@@ -85,35 +84,24 @@ const Content = ({ url }) => {
   );
 };
 
-const WebviewStructure = ({ nav, url }) => {
+const WebviewStructure = ({ nav, url, name }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="content"
+        name={name}
+        // Just in case if customer will change his mind
+        // options={{
+        //   headerTitle: (props) => <TopMenu {...props} navigation={nav} />,
+        // }}
         options={{
-          headerTitle: (props) => <TopMenu {...props} navigation={nav} />,
+          headerRight: (props) => <UserIcon {...props} navigation={nav} />,
+          headerLeft: (props) => <HeaderBackIcon navigation={nav} {...props} />,
         }}
       >
-        {(props) => <Content {...props} url={url} />}
+        {(props) => <Content {...props} url={url} nav />}
       </Stack.Screen>
     </Stack.Navigator>
   );
 };
 
 export default WebviewStructure;
-
-const styles = StyleSheet.create({
-  flexContainer: {
-    flex: 1,
-  },
-  tabBarContainer: {
-    padding: 5,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    backgroundColor: "#b43757",
-  },
-  button: {
-    color: "white",
-    fontSize: 20,
-  },
-});
