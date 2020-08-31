@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import {
@@ -7,12 +7,12 @@ import {
   Text,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
-  ScrollView,
   Keyboard,
   Platform,
   Alert,
   Image,
   Dimensions,
+  Animated,
 } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { UserContext } from "../../context/UserProvider";
@@ -48,18 +48,46 @@ const Login = ({ nav }) => {
     }
   };
 
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    };
+  }, []);
+
+  const resizeImg = useRef(new Animated.Value(250)).current;
+
+  const _keyboardDidShow = () => {
+    Animated.timing(resizeImg, {
+      toValue: 150,
+      duration: 500,
+    }).start();
+  };
+
+  const _keyboardDidHide = () => {
+    Animated.timing(resizeImg, {
+      toValue: 250,
+      duration: 500,
+    }).start();
+  };
+
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.login__container}
     >
-      <KeyboardAvoidingView enabled>
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.login__container}>
-            <Image
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.login__content}>
+          <View style={styles.img__container}>
+            <Animated.Image
+              style={{ width: resizeImg, height: resizeImg }}
               source={require("../../../../assets/splash.png")}
-              style={styles.img}
             />
+          </View>
+          <View style={styles.input__container}>
             <TextInput
               style={styles.user__input}
               label="Nazwa użytkownika lub e-mail"
@@ -95,15 +123,17 @@ const Login = ({ nav }) => {
           defaultValue="7"
           onChangeText={(value) => setVersion_code(value)}
         /> */}
+          </View>
+          <View style={styles.btnContainer}>
             <Button
               mode="contained"
               color={globalStyles.buttonConf.color}
               onPress={() => handleFetchPostData()}
-              style={styles.button}
             >
               Zaloguj się
             </Button>
-
+          </View>
+          <View style={styles.txtContainer}>
             <Text
               style={styles.createAcc}
               onPress={() => nav.navigate("Register")}
@@ -117,44 +147,50 @@ const Login = ({ nav }) => {
               Zapomniałeś hasła ?
             </Text>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   login__container: {
-    height: Dimensions.get("window").height,
     justifyContent: "center",
+    backgroundColor: "#fff",
+    paddingTop: 50,
+    height: Dimensions.get("window").height,
+  },
+  login__content: {
+    backgroundColor: "#fff",
+  },
+  img__container: {
     alignItems: "center",
-    backgroundColor: "#ffff",
   },
-  img: {
-    width: 250,
-    height: 250,
-  },
+  input__container: { paddingHorizontal: 30 },
   user__input: {
-    width: 300,
     backgroundColor: "#ffff",
-    margin: 10,
-    borderColor: "red",
+    marginBottom: 10,
   },
   password__input: {
-    width: 300,
     backgroundColor: "#ffff",
-    margin: 10,
+    marginBottom: 10,
   },
-  button: {
-    marginTop: 15,
+  btnContainer: {
+    marginTop: 12,
+    paddingHorizontal: 50,
+  },
+  txtContainer: {
+    alignItems: "center",
   },
   createAcc: {
     paddingTop: 20,
     color: "green",
+    fontSize: 15,
   },
   forgotPass: {
     paddingTop: 20,
     color: "green",
+    fontSize: 15,
   },
 });
 
