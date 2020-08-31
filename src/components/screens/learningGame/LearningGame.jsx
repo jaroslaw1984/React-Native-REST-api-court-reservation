@@ -4,7 +4,7 @@ import WebviewStructure from "../../routes/WebviewStructure";
 const LearningGame = ({ nav }) => {
   const url = "https://korty.org/logowanie/mobile?page=/nauka";
 
-  const name = "Rozgrywki";
+  const name = "Nauka gry";
 
   return <WebviewStructure nav={nav} url={url} name={name} />;
 };
