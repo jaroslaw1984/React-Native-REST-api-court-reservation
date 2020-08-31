@@ -34,6 +34,7 @@ const ClubCard = ({ nav, item }) => {
             </View>
             <View style={styles.club__info}>
               <Text style={styles.club__name}>{item.name}</Text>
+              <Text style={styles.club__city_name}>{item.city_name}</Text>
               {/* if district name exist show it and give styles */}
               {item.district_name && (
                 <Text
@@ -88,23 +89,28 @@ const styles = StyleSheet.create({
   club__info: {
     flex: 2,
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "space-around",
     alignItems: "flex-start",
   },
   club__name: {
     fontSize: 20,
     fontWeight: "bold",
-    // textAlign: "center",
     lineHeight: 25,
   },
-  club__district: {
+  club__city_name: {
     fontSize: 15,
     paddingTop: 5,
     textAlign: "center",
     opacity: 0.5,
   },
+  club__district: {
+    fontSize: 13,
+    paddingTop: 5,
+    textAlign: "center",
+    opacity: 0.5,
+  },
   club__address: {
-    fontSize: 15,
+    fontSize: 13,
     textAlign: "center",
     opacity: 0.5,
   },
