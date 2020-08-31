@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import WebviewStructure from "../../routes/WebviewStructure";
+import { UserContext } from "../../context/UserProvider";
 
 const Gameplay = ({ nav }) => {
-  const url = "https://korty.org/logowanie/mobile?page=/rozgrywki";
+  const { user } = useContext(UserContext);
 
-  const name = "Nauka gry";
+  const location = user.data.results.location.link;
+  const url = `https://korty.org/logowanie/mobile?page=/rozgrywki${location}`;
+  const name = "Rozgrywki";
 
   return <WebviewStructure nav={nav} url={url} name={name} />;
 };
