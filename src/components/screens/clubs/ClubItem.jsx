@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   FlatList,
   TouchableOpacity,
+  BackHandler,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ClubCard from "./ClubCard";
