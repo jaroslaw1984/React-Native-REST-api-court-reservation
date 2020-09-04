@@ -10,7 +10,6 @@ import {
   Keyboard,
   Platform,
   Alert,
-  Image,
   Dimensions,
   Animated,
 } from "react-native";
@@ -62,7 +61,7 @@ const Login = ({ nav }) => {
 
   const _keyboardDidShow = () => {
     Animated.timing(resizeImg, {
-      toValue: 150,
+      toValue: 190,
       duration: 500,
     }).start();
   };
