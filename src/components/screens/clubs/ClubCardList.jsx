@@ -1,5 +1,12 @@
-import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  BackHandler,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const ClubCardList = ({
@@ -12,6 +19,20 @@ const ClubCardList = ({
   addClub,
   favoriteClub,
 }) => {
+  useEffect(() => {
+    const backButtonHandler = () => {
+      nav.navigate("Kluby");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backButtonHandler
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View style={styles.club}>
       <View style={styles.club__card}>
