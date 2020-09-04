@@ -1,8 +1,6 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { WebView } from "react-native-webview";
-import { View, ActivityIndicator } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import TopMenu from "./TopMenu";
 import Clubs from "../clubs/Clubs";
@@ -13,7 +11,6 @@ import Gameplay from "../gameplay/Gameplay";
 import Leaderboard from "../leaderboard/Leaderboard";
 import LearningGame from "../learningGame/LearningGame";
 import WebviewStructure from "../../routes/WebviewStructure";
-import { UserContext } from "../../context/UserProvider";
 import UserIcon from "./UserIcon";
 
 const setCookie = ({ user }) => {
@@ -28,7 +25,16 @@ const AboutClub = ({ route, navigation }) => {
 
   const club = `https://korty.org/logowanie/mobile?club=${url}`;
 
-  return <WebviewStructure url={club} nav={navigation} />;
+  const name = "Informacje o klubie";
+
+  return (
+    <WebviewStructure
+      url={club}
+      nav={navigation}
+      name={name}
+      clubEndPointName={url}
+    />
+  );
 };
 
 // -------------- All bottom menu  -------------
