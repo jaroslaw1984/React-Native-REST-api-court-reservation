@@ -9,7 +9,7 @@ import { UserContext } from "../context/UserProvider";
 
 const Stack = createStackNavigator();
 
-const Content = ({ url }) => {
+const Content = ({ url, navigation, clubEndPointName }) => {
   const [loading, setLoading] = useState(true);
   const { user } = useContext(UserContext);
 
@@ -18,16 +18,6 @@ const Content = ({ url }) => {
   const [currentUrl, setCurrentUrl] = useState("");
 
   const webviewRef = useRef(null);
-
-  const backButtonHandler = () => {
-    if (webviewRef.current) {
-      webviewRef.current.goBack();
-      console.log(webviewRef.current.goBack());
-      return true;
-    }
-    return false;
-  };
-
   const userSessionKey = user.data.results.session_key;
 
   const hideSpinner = () => {
@@ -38,15 +28,36 @@ const Content = ({ url }) => {
   };
 
   useEffect(() => {
-    BackHandler.addEventListener("hardwareBackPress", () =>
-      backButtonHandler()
-    );
-    return () => {
-      BackHandler.removeEventListener("hardwareBackPress", () =>
-        backButtonHandler()
-      );
+    const backAction = () => {
+      const location = user.data.results.location.link;
+
+      const endPoint = [
+        clubEndPointName,
+        "https://korty.org/nauka",
+        `https://korty.org/rozgrywki${location}`,
+        "https://korty.org/",
+        "https://korty.org/profil",
+        "https://korty.org/ustawienia",
+        "https://korty.org/panel",
+        "https://korty.org/moje-rezerwacje/nadchodzace",
+      ];
+
+      if (webviewRef.current) {
+        webviewRef.current.goBack();
+        if (endPoint.includes(currentUrl)) {
+          navigation.navigate("Kluby");
+        }
+        return true;
+      }
     };
-  }, []);
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [currentUrl]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -61,7 +72,6 @@ const Content = ({ url }) => {
           setCanGoBack(navState.canGoBack);
           setCurrentUrl(navState.url);
         }}
-        allowsBackForwardNavigationGestures
       />
       {loading && (
         <View
@@ -84,7 +94,7 @@ const Content = ({ url }) => {
   );
 };
 
-const WebviewStructure = ({ nav, url, name }) => {
+const WebviewStructure = ({ nav, url, name, clubEndPointName }) => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -98,7 +108,14 @@ const WebviewStructure = ({ nav, url, name }) => {
           headerLeft: (props) => <HeaderBackIcon navigation={nav} {...props} />,
         }}
       >
-        {(props) => <Content {...props} url={url} nav />}
+        {(props) => (
+          <Content
+            {...props}
+            url={url}
+            navigation={nav}
+            clubEndPointName={clubEndPointName}
+          />
+        )}
       </Stack.Screen>
     </Stack.Navigator>
   );
