@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "flex-start",
+    marginLeft: 10,
   },
   club__name: {
     fontSize: 20,
@@ -106,12 +107,10 @@ const styles = StyleSheet.create({
   club__district: {
     fontSize: 13,
     paddingTop: 5,
-    textAlign: "center",
     opacity: 0.5,
   },
   club__address: {
     fontSize: 13,
-    textAlign: "center",
     opacity: 0.5,
   },
   club__favorite: {
