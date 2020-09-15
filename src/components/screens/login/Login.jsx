@@ -13,13 +13,14 @@ import {
   Dimensions,
   Animated,
 } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import { Button, TextInput } from "react-native-paper";
 import { UserContext } from "../../context/UserProvider";
 import { globalStyles } from "../../../../styles/global";
 
 const Login = ({ nav }) => {
-  const [username, setUsername] = useState("tester2");
-  const [password, setPassword] = useState("tester");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [version_os, setVersion_os] = useState(Platform.OS.toString());
   const [version_code, setVersion_code] = useState(
     Platform.OS.toString() === "ios" ? "1" : "7"
@@ -42,8 +43,28 @@ const Login = ({ nav }) => {
 
     if (respond.data.error_code === 2001) {
       Alert.alert("Login", respond.data.error.message);
+      setPassword("");
     } else if (respond.data.error_code === 0) {
       setDataContext(respond);
+    }
+  };
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("@storage_Key", value);
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@storage_Key");
+      if (value !== null) {
+        setUsername(value);
+      }
+    } catch (err) {
+      throw new Error(err);
     }
   };
 
@@ -51,6 +72,7 @@ const Login = ({ nav }) => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
 
+    getData();
     return () => {
       Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
@@ -93,7 +115,6 @@ const Login = ({ nav }) => {
               value={username}
               underlineColor={globalStyles.buttonConf.color}
               onChangeText={(value) => setUsername(value)}
-              defaultValue="tester2"
               mode={"outlined"}
             />
 
@@ -104,7 +125,6 @@ const Login = ({ nav }) => {
               style={styles.password__input}
               onChangeText={(value) => setPassword(value)}
               underlineColor={globalStyles.buttonConf.color}
-              defaultValue="tester"
               mode={"outlined"}
             />
 
@@ -127,7 +147,10 @@ const Login = ({ nav }) => {
             <Button
               mode="contained"
               color={globalStyles.buttonConf.color}
-              onPress={() => handleFetchPostData()}
+              onPress={() => {
+                handleFetchPostData();
+                storeData(username);
+              }}
             >
               Zaloguj się
             </Button>
