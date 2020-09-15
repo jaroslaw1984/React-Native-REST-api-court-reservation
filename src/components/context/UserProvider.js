@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 export const UserContext = createContext();
 
@@ -37,6 +37,22 @@ export const UserProvider = ({ children }) => {
     setSearchClubs(data);
   };
 
+  const storeUser = async (value) => {
+    try {
+      await AsyncStorage.setItem("user", value);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeUser = async (value) => {
+    try {
+      await AsyncStorage.removeItem(value);
+    } catch (err) {
+      throw new Error(err);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -53,11 +69,11 @@ export const UserProvider = ({ children }) => {
         login: () => {
           const logetUser = user;
           setUser(logetUser);
-          AsyncStorage.setItem("user", logetUser);
+          storeUser(logetUser);
         },
         logout: () => {
           setUser(null);
-          AsyncStorage.removeItem("user");
+          removeUser("user");
         },
       }}
     >
