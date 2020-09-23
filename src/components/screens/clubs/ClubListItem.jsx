@@ -1,14 +1,37 @@
 import React, { useContext, useState, useRef } from "react";
-import { FlatList, Animated, StyleSheet, Alert } from "react-native";
+import { FlatList, Animated, StyleSheet, Alert, Text } from "react-native";
 import { UserContext } from "../../context/UserProvider";
 import axios from "axios";
 import ClubCardList from "./ClubCardList";
 import ClubAlertModal from "./ClubAlertModal";
+import {
+  Searchbar,
+  Button,
+  Modal,
+  Portal,
+  Provider,
+  Paragraph,
+  Dialog,
+} from "react-native-paper";
+import { View } from "react-native";
 
 const ClubListItem = ({ nav, data }) => {
+  // remove club modal
   const [modalActive, setModalActive] = useState(false);
+  // get club id
   const [clubId, setClubId] = useState(Number);
+  // get club name
   const [clubName, setClubName] = useState(String);
+  // search bar
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const onChangeSearch = (query) => setSearchQuery(query);
+  // location modal
+  const [modalLocation, setModalLocation] = useState(false);
+
+  const showModalLocation = () => setModalLocation(true);
+
+  const hideModalLocation = () => setModalLocation(false);
 
   const {
     user,
@@ -49,6 +72,9 @@ const ClubListItem = ({ nav, data }) => {
   const getClubName = (name) => {
     setClubName(name);
   };
+
+  // get user location from api
+  const getUserLocation = user.data.results.location.name;
 
   // this function allow to add or delete club from API depends what attribute were pass in setOption
   const useFavoriteOptions = async (setOption, cardId) => {
@@ -107,7 +133,29 @@ const ClubListItem = ({ nav, data }) => {
   };
 
   return (
-    <React.Fragment>
+    <View>
+      {/* set location and search bar component*/}
+      <View style={styles.navButtonConteiner}>
+        <View style={styles.setLocationConteiner}>
+          <Button
+            icon="map-marker"
+            mode="contained"
+            onPress={showModalLocation}
+            style={styles.setLocationButton}
+          >
+            {getUserLocation === "" ? "USTAW" : getUserLocation}
+          </Button>
+        </View>
+        <View style={styles.searchBarConteiner}>
+          <Searchbar
+            placeholder="Szukaj"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+          />
+        </View>
+      </View>
+
+      {/* show all clubs at selected location */}
       <FlatList
         keyExtractor={(item) => item.id.toString()}
         data={data}
@@ -128,6 +176,17 @@ const ClubListItem = ({ nav, data }) => {
           />
         )}
       />
+      {/* <Provider>
+        <Portal>
+          <Modal visible={modalLocation} onDismiss={hideModalLocation}>
+            <Dialog visible={modalLocation} onDismiss={hideModalLocation}>
+              <Dialog.Content>
+                <Paragraph>This is simple dialog</Paragraph>
+              </Dialog.Content>
+            </Dialog>
+          </Modal>
+        </Portal>
+      </Provider> */}
       {modalActive && (
         <Animated.View
           style={[
@@ -145,13 +204,30 @@ const ClubListItem = ({ nav, data }) => {
           />
         </Animated.View>
       )}
-    </React.Fragment>
+    </View>
   );
 };
 
 export default ClubListItem;
 
 const styles = StyleSheet.create({
+  navButtonConteiner: {
+    flexDirection: "row",
+    marginVertical: 10,
+    marginHorizontal: 10,
+    alignItems: "center",
+  },
+  setLocationConteiner: {
+    flex: 1,
+  },
+  setLocationButton: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  searchBarConteiner: {
+    flex: 1,
+    marginLeft: 10,
+  },
   alertModal: {
     position: "absolute",
     top: 0,
