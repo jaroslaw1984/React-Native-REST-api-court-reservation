@@ -12,6 +12,7 @@ import Leaderboard from "../leaderboard/Leaderboard";
 import LearningGame from "../learningGame/LearningGame";
 import WebviewStructure from "../../routes/WebviewStructure";
 import UserIcon from "./UserIcon";
+import ChangeClubsLocation from "../location/ChangeClubsLocation";
 
 const setCookie = ({ user }) => {
   const cookie = user.data.results.session_key;
@@ -42,6 +43,10 @@ const AboutClub = ({ route, navigation }) => {
 // This show all list clubs
 const AllClubs = ({ navigation }) => {
   return <ClubList nav={navigation} />;
+};
+
+const ChangeClubsLocationScreen = () => {
+  return <ChangeClubsLocation />;
 };
 
 // This show clubs that are added to favorite bookmark
@@ -169,6 +174,17 @@ const HomeStackScreen = ({ navigation }) => {
           ),
         }}
       />
+
+      <HomeStack.Screen
+        name="Zmiana lokalizacji"
+        component={ChangeClubsLocationScreen}
+        options={{
+          headerRight: (props) => (
+            <UserIcon {...props} navigation={navigation} />
+          ),
+        }}
+      />
+
       <HomeStack.Screen
         name="Informacje o klubie"
         component={AboutClub}
