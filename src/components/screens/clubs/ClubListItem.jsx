@@ -26,12 +26,6 @@ const ClubListItem = ({ nav, data }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const onChangeSearch = (query) => setSearchQuery(query);
-  // location modal
-  const [modalLocation, setModalLocation] = useState(false);
-
-  const showModalLocation = () => setModalLocation(true);
-
-  const hideModalLocation = () => setModalLocation(false);
 
   const {
     user,
@@ -49,6 +43,7 @@ const ClubListItem = ({ nav, data }) => {
       duration: 500,
       useNativeDriver: true,
     }).start();
+    // hook that open modal
     setModalActive(true);
   };
 
@@ -59,6 +54,7 @@ const ClubListItem = ({ nav, data }) => {
       useNativeDriver: true,
     }).start();
     setTimeout(() => {
+      // hook that close modal
       setModalActive(false);
     }, 500);
   };
@@ -140,19 +136,20 @@ const ClubListItem = ({ nav, data }) => {
           <Button
             icon="map-marker"
             mode="contained"
-            onPress={showModalLocation}
+            onPress={() => nav.navigate("Zmiana lokalizacji")}
             style={styles.setLocationButton}
           >
-            {getUserLocation === "" ? "USTAW" : getUserLocation}
+            {getUserLocation === "" ? "LOKALIZACJA" : getUserLocation}
           </Button>
         </View>
-        <View style={styles.searchBarConteiner}>
+        {/* Searchbar for future update */}
+        {/* <View style={styles.searchBarConteiner}>
           <Searchbar
             placeholder="Szukaj"
             onChangeText={onChangeSearch}
             value={searchQuery}
           />
-        </View>
+        </View> */}
       </View>
 
       {/* show all clubs at selected location */}
@@ -176,17 +173,7 @@ const ClubListItem = ({ nav, data }) => {
           />
         )}
       />
-      {/* <Provider>
-        <Portal>
-          <Modal visible={modalLocation} onDismiss={hideModalLocation}>
-            <Dialog visible={modalLocation} onDismiss={hideModalLocation}>
-              <Dialog.Content>
-                <Paragraph>This is simple dialog</Paragraph>
-              </Dialog.Content>
-            </Dialog>
-          </Modal>
-        </Portal>
-      </Provider> */}
+
       {modalActive && (
         <Animated.View
           style={[
@@ -212,17 +199,26 @@ export default ClubListItem;
 
 const styles = StyleSheet.create({
   navButtonConteiner: {
+    // settings with searchBar
+    // flexDirection: "row",
+    // marginVertical: 10,
+    // marginHorizontal: 10,
+    // alignItems: "center",
+    //
     flexDirection: "row",
     marginVertical: 10,
     marginHorizontal: 10,
     alignItems: "center",
+    justifyContent: "center",
   },
   setLocationConteiner: {
-    flex: 1,
+    // settings with searchBar
+    // flex: 1,
   },
   setLocationButton: {
-    flex: 1,
-    justifyContent: "center",
+    // settings with searchBar
+    // flex: 1,
+    // justifyContent: "center",
   },
   searchBarConteiner: {
     flex: 1,
