@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { View, StyleSheet, Text, Dimensions, Animated } from "react-native";
 import { Button, List, RadioButton } from "react-native-paper";
 import { UserContext } from "../../context/UserProvider";
@@ -8,33 +8,130 @@ import ClubLocationModal from "./ClubLocationModal";
 
 const ChangeClubsLocation = () => {
   // location modal
-  const [modalLocation, setModalLocation] = useState(false);
+  const [locationChange, setLocationChange] = useState(false);
   // input selected and put in to state
   const [selectedItem, setSelectedItem] = useState("");
+  // get location
+  const [locationData, setLocationData] = useState(null);
+
+  // selected id from textInput
+  const [selectedId, setSelectedId] = useState("");
+  // set province in to textInput
+  const [province, setProvince] = useState("");
+  // set city in to textInput
+  const [city, setCity] = useState("");
+  // set district in to textInput
+  const [district, setDistrict] = useState("");
 
   // input titles
-  const province = "Województwo";
-  const city = "Miasto";
-  const district = "Dzielnica";
+  const provinceTitle = "Województwo";
+  const cityTitle = "Miasto";
+  const districtTitle = "Dzielnica";
 
-  // const fetchAllClubs = async () => {
-  //   const getAllClubs = new FormData();
+  // provider
+  const { user } = useContext(UserContext);
+  // console.log(user);
+  // console.log(selectedId);
+  // console.log(locationData);
 
-  //   getAllClubs.append("session_key", user.data.results.session_key);
-  //   getAllClubs.append("location_level", user.data.results.location.level);
-  //   getAllClubs.append("location_id", user.data.results.location.id);
+  // get user city location from API
+  const getCityNameLocation = user.data.results.location.name;
 
-  //   await axios
-  //     .post("https://korty.org/api/clubs/show", getAllClubs)
-  //     .then((respond) => {
-  //       handleSearchClubs(respond.data.results);
-  //       handleLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // };
+  // get city id from API
+  const getCityId = user.data.results.location.city_id.toString();
 
+  // get province id from API
+  const getProvinceId = user.data.results.location.province_id.toString();
+
+  // fetch location from api. If value will be as 1-province, 2-city, 3-district
+  const fetchLocation = async (value) => {
+    const getLocation = new FormData();
+
+    getLocation.append("location_level", value);
+    getLocation.append("offset", 0);
+    getLocation.append("limit", 0);
+
+    await axios
+      .post("https://korty.org/api/locations/download", getLocation)
+      .then((respond) => {
+        setLocationData(respond.data.results.locations);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  // clear data location
+  const handleClearDataLocation = () => {
+    setLocationData(null);
+  };
+
+  // set id by selecting elemnt in textInput
+  const handleSelectedId = (id) => {
+    setSelectedId(id);
+  };
+
+  const handleSetProvince = async () => {
+    // get all province
+    let provinceData;
+    // get parentId form selected province
+    let parentId;
+
+    // fetchLocation(1);
+    const getLocation = new FormData();
+
+    getLocation.append("location_level", 1);
+    getLocation.append("offset", 0);
+    getLocation.append("limit", 0);
+
+    provinceData = await axios.post(
+      "https://korty.org/api/locations/download",
+      getLocation
+    );
+
+    // this variable filtering data and selected element by id and return name from API object
+    const provinceItem = provinceData.data.results.locations.find((item) => {
+      if (selectedId === "") {
+        return item.id === getProvinceId;
+      } else {
+        setCity("Wszystkie");
+        return item.id === selectedId;
+      }
+    });
+
+    setProvince(provinceItem.name);
+
+    parentId = provinceItem.parent_id;
+    console.log(parentId);
+
+    selectedId && handleSetCity(parentId);
+  };
+
+  const handleSetCity = async (id) => {
+    // get all province
+    let cityData;
+
+    // fetchLocation(1);
+    const getLocation = new FormData();
+
+    getLocation.append("location_level", 2);
+    getLocation.append("offset", 0);
+    getLocation.append("limit", 0);
+
+    cityData = await axios.post(
+      "https://korty.org/api/locations/download",
+      getLocation
+    );
+
+    // this variable filtering data and selected element by id and return name from API object
+    const cityItem = cityData.data.results.locations.filter(
+      (item) => item.parent_id === id
+    );
+
+    setLocationData(cityItem);
+  };
+
+  // Modal animation fade in and fade out
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const handleOpenLocationModal = () => {
@@ -43,7 +140,7 @@ const ChangeClubsLocation = () => {
       duration: 500,
       useNativeDriver: true,
     }).start();
-    setModalLocation(true);
+    setLocationChange(true);
   };
 
   const handleCloseLocationModal = () => {
@@ -53,9 +150,13 @@ const ChangeClubsLocation = () => {
       useNativeDriver: true,
     }).start();
     setTimeout(() => {
-      setModalLocation(false);
+      setLocationChange(false);
     }, 500);
   };
+
+  useEffect(() => {
+    handleSetProvince();
+  });
 
   return (
     // Change location container
@@ -64,7 +165,7 @@ const ChangeClubsLocation = () => {
         {/* Province content*/}
         <View style={styles.list_item}>
           <List.Item
-            title={province}
+            title={provinceTitle}
             left={(props) => <List.Icon {...props} icon="map-marker-radius" />}
           />
           <View style={styles.list_input_content}>
@@ -73,10 +174,11 @@ const ChangeClubsLocation = () => {
                 mode="text"
                 onPress={() => {
                   handleOpenLocationModal();
-                  setSelectedItem(province);
+                  setSelectedItem(provinceTitle);
+                  fetchLocation(1);
                 }}
               >
-                Kujawsko-Pomorskie
+                {province}
               </Button>
             </View>
             <View>
@@ -95,7 +197,7 @@ const ChangeClubsLocation = () => {
         {/* City content*/}
         <View style={styles.list_item}>
           <List.Item
-            title={city}
+            title={cityTitle}
             left={(props) => <List.Icon {...props} icon="city" />}
           />
           <View style={styles.list_input_content}>
@@ -104,10 +206,11 @@ const ChangeClubsLocation = () => {
                 mode="text"
                 onPress={() => {
                   handleOpenLocationModal();
-                  setSelectedItem(city);
+                  setSelectedItem(cityTitle);
+                  fetchLocation(2);
                 }}
               >
-                Włocławek
+                {selectedId === "" ? getCityNameLocation : city}
               </Button>
             </View>
             <View>
@@ -125,7 +228,7 @@ const ChangeClubsLocation = () => {
         {/* District content */}
         <View style={styles.list_item}>
           <List.Item
-            title={district}
+            title={districtTitle}
             left={(props) => <List.Icon {...props} icon="home-city" />}
           />
           <View style={styles.list_input_content}>
@@ -134,7 +237,8 @@ const ChangeClubsLocation = () => {
                 mode="text"
                 onPress={() => {
                   handleOpenLocationModal();
-                  setSelectedItem(district);
+                  setSelectedItem(districtTitle);
+                  fetchLocation(3);
                 }}
               >
                 Wszystkie
@@ -154,20 +258,22 @@ const ChangeClubsLocation = () => {
 
         {/* Save button content */}
         <View style={styles.list__saveBtn}>
-          <Button
-            mode="contained"
-            color={globalStyles.buttonConf.color}
-            onPress={() => console.log("Zmiany zapisane")}
-            uppercase={false}
-          >
-            Zapisz zmiany
-          </Button>
+          {!locationChange && (
+            <Button
+              mode="contained"
+              color={globalStyles.buttonConf.color}
+              onPress={() => console.log("Zmiany zapisane")}
+              uppercase={false}
+            >
+              Zapisz zmiany
+            </Button>
+          )}
         </View>
       </View>
       {/* ----------------------------- */}
 
       {/* Modal content */}
-      {modalLocation && (
+      {locationChange && (
         <Animated.View
           style={[
             styles.alertModal,
@@ -179,6 +285,9 @@ const ChangeClubsLocation = () => {
           <ClubLocationModal
             onClose={handleCloseLocationModal}
             title={selectedItem}
+            data={locationData}
+            clearData={handleClearDataLocation}
+            handleSelectedId={handleSelectedId}
           />
         </Animated.View>
       )}
