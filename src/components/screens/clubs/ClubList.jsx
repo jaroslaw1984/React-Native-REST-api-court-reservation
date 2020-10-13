@@ -17,7 +17,8 @@ const useAllClubs = (url) => {
     const getAllClubs = new FormData();
 
     getAllClubs.append("session_key", user.data.results.session_key);
-    getAllClubs.append("location_level", user.data.results.location.level);
+    // getAllClubs.append("location_level", user.data.results.location.level);
+    getAllClubs.append("location_level", 0);
     getAllClubs.append("location_id", user.data.results.location.id);
 
     await axios
