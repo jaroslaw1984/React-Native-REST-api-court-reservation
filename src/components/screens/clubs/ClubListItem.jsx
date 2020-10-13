@@ -33,6 +33,8 @@ const ClubListItem = ({ nav, data }) => {
     userClubs,
     handleRemoveClub,
     logout,
+    handleSetProvince,
+    handleSetCitys,
   } = useContext(UserContext);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -132,16 +134,21 @@ const ClubListItem = ({ nav, data }) => {
     <View>
       {/* set location and search bar component*/}
       <View style={styles.navButtonConteiner}>
-        <View style={styles.setLocationConteiner}>
+        {/* Select clubs location button. Future update */}
+        {/* <View style={styles.setLocationConteiner}>
           <Button
             icon="map-marker"
             mode="contained"
-            onPress={() => nav.navigate("Zmiana lokalizacji")}
+            onPress={() => {
+              nav.navigate("Zmiana lokalizacji");
+              handleSetProvince();
+              handleSetCitys();
+            }}
             style={styles.setLocationButton}
           >
             {getUserLocation === "" ? "LOKALIZACJA" : getUserLocation}
           </Button>
-        </View>
+        </View> */}
         {/* Searchbar for future update */}
         {/* <View style={styles.searchBarConteiner}>
           <Searchbar
