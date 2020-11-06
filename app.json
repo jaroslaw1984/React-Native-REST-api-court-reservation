@@ -24,7 +24,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "korty.org",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.1",
       "infoPlist": {
         "NSCameraUsageDescription": "Korty.org requires access to the camera to take a profile photo",
         "NSPhotoLibraryUsageDescription": "Korty.org needs access to the camera roll to select photos as profile",
