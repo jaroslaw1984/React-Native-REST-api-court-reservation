@@ -24,11 +24,26 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "korty.org",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Korty.org requires access to the camera to take a profile photo",
+        "NSPhotoLibraryUsageDescription": "Korty.org needs access to the camera roll to select photos as profile",
+        "NSPhotoLibraryAddUsageDescription": "Korty.org needs access to your camera roll to be able to upload a photo",
+        "NSLocationWhenInUseUsageDescription": "Korty.org requires your location in order for us to display nearby clubs",
+        "NSLocationAlwaysUsageDescription": "Korty.org requires your location in order for us to display nearby clubs",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Korty.org requires your location in order for us to display nearby clubs",
+        "NSLocationUsageDescription": "Korty.org requires your location in order for us to display nearby clubs",
+        "NSCalendarsUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSContactsUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSMicrophoneUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSMotionUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSRemindersUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us."
+      }
     },
     "android": {
       "package": "korty.org",
-      "versionCode": 1
+      "versionCode": 1,
+      "permissions": []
     },
     "description": "Wygodny i intuicyjny serwis z możliwością wyszukiwania oraz rezerwowania kortów tenisowych przez Internet, dający możliwość uczestniczenia w rozgrywkach klubowych"
   }
