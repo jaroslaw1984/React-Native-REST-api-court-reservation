@@ -15,6 +15,7 @@ const useAllClubs = (url) => {
 
   const fetchAllClubs = async () => {
     const getAllClubs = new FormData();
+    let isSubscribed = true;
 
     getAllClubs.append("session_key", user.data.results.session_key);
     // getAllClubs.append("location_level", user.data.results.location.level);
@@ -24,12 +25,16 @@ const useAllClubs = (url) => {
     await axios
       .post(url, getAllClubs)
       .then((respond) => {
-        handleSearchClubs(respond.data.results);
-        handleLoading(false);
+        if (isSubscribed) {
+          handleSearchClubs(respond.data.results);
+          handleLoading(false);
+        }
       })
       .catch((err) => {
         console.error(err);
       });
+
+    return () => (isSubscribed = false);
   };
 
   useEffect(() => {
@@ -53,7 +58,7 @@ const ClubList = ({ nav }) => {
       <React.Fragment>
         {loading ? (
           <View style={styles.loading_Indicator}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="#2f89fc" />
           </View>
         ) : (
           <ClubListItem nav={nav} data={searchClubs} />

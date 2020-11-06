@@ -88,7 +88,7 @@ const Content = ({ url, navigation, clubEndPointName }) => {
           }}
           size="large"
         >
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#2f89fc" />
         </View>
       )}
     </View>
