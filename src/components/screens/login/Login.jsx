@@ -85,6 +85,7 @@ const Login = ({ nav }) => {
     Animated.timing(resizeImg, {
       toValue: 190,
       duration: 500,
+      useNativeDriver: false,
     }).start();
   };
 
@@ -92,6 +93,7 @@ const Login = ({ nav }) => {
     Animated.timing(resizeImg, {
       toValue: 250,
       duration: 500,
+      useNativeDriver: false,
     }).start();
   };
 
