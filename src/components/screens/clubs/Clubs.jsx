@@ -63,7 +63,7 @@ const Clubs = ({ nav }) => {
     <React.Fragment>
       {loading ? (
         <View style={styles.loading_Indicator}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#2f89fc" />
         </View>
       ) : (
         <View style={styles.container}>
