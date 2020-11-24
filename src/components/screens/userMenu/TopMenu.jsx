@@ -34,23 +34,26 @@ const TopMenu = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   header: {
-    flex: 1,
+    // flex: 1
     width: Platform.OS === "ios" ? Dimensions.get("window").width : null,
     flexDirection: "row",
+    marginHorizontal: -16,
   },
   logoContent: {
     flex: 1,
   },
   logo: {
-    width: 120,
+    width: 100,
     height: 50,
     paddingLeft: 190,
     resizeMode: "cover",
   },
   iconsContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
+    // flexDirection: "row",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    backgroundColor: "#0000",
   },
   iconNotification: {
     marginRight: 20,
