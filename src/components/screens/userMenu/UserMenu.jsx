@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -13,6 +13,9 @@ import LearningGame from "../learningGame/LearningGame";
 import WebviewStructure from "../../routes/WebviewStructure";
 import UserIcon from "./UserIcon";
 import ChangeClubsLocation from "../location/ChangeClubsLocation";
+import { UserContext } from "../../context/UserProvider";
+import { ActivityIndicator, View } from "react-native";
+import { WebView } from "react-native-webview";
 
 const setCookie = ({ user }) => {
   const cookie = user.data.results.session_key;
@@ -75,76 +78,76 @@ const LearningGameScreen = ({ navigation }) => {
 // -------------- Drawer Menu options -------------
 
 // function for WebView
-// const useWebView = (page) => {
-//   const { user } = useContext(UserContext);
-//   const [loading, setLoading] = useState(true);
-//   const userSessionKey = user.data.results.session_key;
+const useWebView = (page) => {
+  const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+  const userSessionKey = user.data.results.session_key;
 
-//   const hideSpinner = () => {
-//     setLoading(false);
-//   };
-//   const showSpinner = () => {
-//     setLoading(true);
-//   };
+  const hideSpinner = () => {
+    setLoading(false);
+  };
+  const showSpinner = () => {
+    setLoading(true);
+  };
 
-//   return (
-//     <View style={{ flex: 1 }}>
-//       <WebView
-//         source={{
-//           uri: `https://korty.org/logowanie/mobile?page=/${page}&sid=${userSessionKey}`,
-//         }}
-//         onLoadStart={() => showSpinner()}
-//         onLoad={() => hideSpinner()}
-//       />
-//       {loading && (
-//         <View
-//           style={{
-//             flex: 1,
-//             left: 0,
-//             right: 0,
-//             top: 0,
-//             bottom: 0,
-//             position: "absolute",
-//             alignItems: "center",
-//             justifyContent: "center",
-//           }}
-//           size="large"
-//         >
-//           <ActivityIndicator size="large" />
-//         </View>
-//       )}
-//     </View>
-//   );
-// };
+  return (
+    <View style={{ flex: 1 }}>
+      <WebView
+        source={{
+          uri: `https://korty.org/logowanie/mobile?page=/${page}&sid=${userSessionKey}`,
+        }}
+        onLoadStart={() => showSpinner()}
+        onLoad={() => hideSpinner()}
+      />
+      {loading && (
+        <View
+          style={{
+            flex: 1,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            position: "absolute",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          size="large"
+        >
+          <ActivityIndicator size="large" color="#2f89fc" />
+        </View>
+      )}
+    </View>
+  );
+};
 
-// const userProfile = () => useWebView("profil");
+const userProfile = () => useWebView("profil");
 
-// const userSettings = () => useWebView("ustawienia");
+const userSettings = () => useWebView("ustawienia");
 
-// const managementPanel = () => useWebView("panel");
+const managementPanel = () => useWebView("panel");
 
 // second version for WebView
 
-const userProfile = ({ navigation }) => {
-  const url = "https://korty.org/logowanie/mobile?page=/profil";
-  const name = "Profil gracza";
+// const userProfile = ({ navigation }) => {
+//   const url = "https://korty.org/logowanie/mobile?page=/profil";
+//   const name = "Profil gracza";
 
-  return <WebviewStructure nav={navigation} url={url} name={name} />;
-};
+//   return <WebviewStructure nav={navigation} url={url} name={name} />;
+// };
 
-const userSettings = ({ navigation }) => {
-  const url = "https://korty.org/logowanie/mobile?page=/ustawienia";
-  const name = "Ustawienia konta";
+// const userSettings = ({ navigation }) => {
+//   const url = "https://korty.org/logowanie/mobile?page=/ustawienia";
+//   const name = "Ustawienia konta";
 
-  return <WebviewStructure nav={navigation} url={url} name={name} />;
-};
+//   return <WebviewStructure nav={navigation} url={url} name={name} />;
+// };
 
-const managementPanel = ({ navigation }) => {
-  const url = "https://korty.org/logowanie/mobile?page=/panel";
-  const name = "Panel zarządzania";
+// const managementPanel = ({ navigation }) => {
+//   const url = "https://korty.org/logowanie/mobile?page=/panel";
+//   const name = "Panel zarządzania";
 
-  return <WebviewStructure nav={navigation} url={url} name={name} />;
-};
+//   return <WebviewStructure nav={navigation} url={url} name={name} />;
+// };
 
 // -----------------------------------------------
 
@@ -153,9 +156,7 @@ const HomeStack = createStackNavigator();
 // This show everything that is in club tab
 const HomeStackScreen = ({ navigation }) => {
   return (
-    <HomeStack.Navigator
-      options={{ headerStyle: { backgroundColor: "black" } }}
-    >
+    <HomeStack.Navigator>
       <HomeStack.Screen
         name="Kluby"
         component={ClubsScreen}
