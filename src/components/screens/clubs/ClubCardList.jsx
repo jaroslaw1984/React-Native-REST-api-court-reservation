@@ -65,13 +65,17 @@ const ClubCardList = ({
             </View>
             <View style={styles.club__info}>
               <Text style={styles.club__name}>{item.name}</Text>
-              <Text style={styles.club__city_name}>{item.city_name}</Text>
+              <Text style={styles.club__city_name}>
+                {item.city_name}
+                {item.district_name && ` - ${item.district_name}`}
+              </Text>
+              {/* This will be for delete if Michał will accept it */}
               {/* if district name exist show it and give styles */}
-              {item.district_name && (
+              {/* {item.district_name && (
                 <Text
                   style={styles.club__district}
-                >{`(${item.district_name})`}</Text>
-              )}
+                >{`- ${item.district_name}`}</Text>
+              )} */}
               <Text style={styles.club__address}>{item.address}</Text>
             </View>
           </View>
@@ -156,11 +160,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     opacity: 0.5,
   },
-  club__district: {
-    fontSize: 13,
-    paddingTop: 5,
-    opacity: 0.5,
-  },
+  // This will be for delete if Michał will accept it
+  // club__district: {
+  //   fontSize: 13,
+  //   paddingTop: 5,
+  //   opacity: 0.5,
+  // },
   club__address: {
     fontSize: 13,
     opacity: 0.5,
