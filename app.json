@@ -45,6 +45,10 @@
       "versionCode": 1,
       "permissions": []
     },
+    "androidNavigationBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#ffffff"
+    },
     "description": "Wygodny i intuicyjny serwis z możliwością wyszukiwania oraz rezerwowania kortów tenisowych przez Internet, dający możliwość uczestniczenia w rozgrywkach klubowych"
   }
 }
