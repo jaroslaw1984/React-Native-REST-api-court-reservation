@@ -3,6 +3,7 @@ import axios from "axios";
 import { StyleSheet, ActivityIndicator, View, BackHandler } from "react-native";
 import { Snackbar } from "react-native-paper";
 import { UserContext } from "../../context/UserProvider";
+import { globalStyles } from "../../../../styles/global";
 import ClubItem from "./ClubItem";
 
 const useClubs = (url) => {
@@ -87,6 +88,7 @@ export default Clubs;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: globalStyles.mainBackgroundColor.backgroundColor,
   },
   loading_Indicator: {
     flex: 1,
