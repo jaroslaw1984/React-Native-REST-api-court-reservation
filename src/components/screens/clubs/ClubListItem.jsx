@@ -14,6 +14,7 @@ import {
   Dialog,
 } from "react-native-paper";
 import { View } from "react-native";
+import { globalStyles } from "../../../../styles/global";
 
 const ClubListItem = ({ nav, data }) => {
   // remove club modal
@@ -131,7 +132,7 @@ const ClubListItem = ({ nav, data }) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {/* set location and search bar component*/}
       <View style={styles.navButtonConteiner}>
         {/* Select clubs location button. Future update */}
@@ -205,6 +206,9 @@ const ClubListItem = ({ nav, data }) => {
 export default ClubListItem;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: globalStyles.mainBackgroundColor.backgroundColor,
+  },
   navButtonConteiner: {
     // settings with searchBar
     // flexDirection: "row",
