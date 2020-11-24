@@ -20,13 +20,13 @@
     "react": "17.0.1",
     "react-dom": "~17.0.1",
     "react-native": "0.63.3",
-    "react-native-gesture-handler": "~1.8.0",
+    "react-native-gesture-handler": "~1.7.0",
     "react-native-paper": "^4.0.1",
     "react-native-reanimated": "~1.13.1",
-    "react-native-safe-area-context": "3.1.8",
-    "react-native-screens": "~2.12.0",
+    "react-native-safe-area-context": "3.1.4",
+    "react-native-screens": "~2.10.1",
     "react-native-web": "~0.14.5",
-    "react-native-webview": "10.10.0"
+    "react-native-webview": "10.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
