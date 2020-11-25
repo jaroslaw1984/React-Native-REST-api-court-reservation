@@ -23,22 +23,31 @@ const setCookie = ({ user }) => {
   // document.cookie = `session_key_api=${newCookie}; expires=Tue, 25-Aug-2020 10:39:25 GMT; Max-Age=2678400; path=/`;
 };
 
+// // This show details about club and load the webpage of club info
+// const AboutClub = ({ route, navigation }) => {
+//   const { url } = route.params;
+
+//   const club = `https://korty.org/logowanie/mobile?club=${url}`;
+
+//   const name = "Informacje o klubie";
+
+//   return (
+//     <WebviewStructure
+//       url={club}
+//       nav={navigation}
+//       name={name}
+//       clubEndPointName={url}
+//     />
+//   );
+// };
+
 // This show details about club and load the webpage of club info
-const AboutClub = ({ route, navigation }) => {
+const AboutClub = ({ route }) => {
+  const { user } = useContext(UserContext);
+  const userSessionKey = user.data.results.session_key;
   const { url } = route.params;
 
-  const club = `https://korty.org/logowanie/mobile?club=${url}`;
-
-  const name = "Informacje o klubie";
-
-  return (
-    <WebviewStructure
-      url={club}
-      nav={navigation}
-      name={name}
-      clubEndPointName={url}
-    />
-  );
+  return <WebView source={{ uri: `${url}?sid=${userSessionKey}` }} />;
 };
 
 // -------------- All bottom menu  -------------
