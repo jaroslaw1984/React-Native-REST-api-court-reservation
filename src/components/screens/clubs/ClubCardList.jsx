@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Pressable,
   BackHandler,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -36,7 +37,7 @@ const ClubCardList = ({
   return (
     <View style={styles.club}>
       <View style={styles.club__card}>
-        <TouchableOpacity
+        <Pressable
           onPress={() => nav.navigate("Informacje o klubie", { url: item.url })}
         >
           <View style={styles.club__item}>
@@ -64,7 +65,15 @@ const ClubCardList = ({
               ></View>
             </View>
             <View style={styles.club__info}>
-              <Text style={styles.club__name}>{item.name}</Text>
+              <Text
+                style={
+                  item.status === 1
+                    ? styles.club__name__isOnline
+                    : styles.club__name__offline
+                }
+              >
+                {item.name}
+              </Text>
               <Text style={styles.club__city_name}>
                 {item.city_name}
                 {item.district_name && ` - ${item.district_name}`}
@@ -79,7 +88,7 @@ const ClubCardList = ({
               <Text style={styles.club__address}>{item.address}</Text>
             </View>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <TouchableOpacity
         onPress={() => {
@@ -149,10 +158,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     marginLeft: 40,
   },
-  club__name: {
+  club__name__isOnline: {
     fontSize: 20,
     fontWeight: "bold",
     lineHeight: 25,
+  },
+  club__name__offline: {
+    fontSize: 20,
+    fontWeight: "bold",
+    lineHeight: 25,
+    opacity: 0.5,
   },
   club__city_name: {
     fontSize: 15,
