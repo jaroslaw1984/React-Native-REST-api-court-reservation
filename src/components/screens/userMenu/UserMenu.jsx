@@ -44,10 +44,46 @@ const setCookie = ({ user }) => {
 // This show details about club and load the webpage of club info
 const AboutClub = ({ route }) => {
   const { user } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
   const userSessionKey = user.data.results.session_key;
   const { url } = route.params;
 
-  return <WebView source={{ uri: `${url}?sid=${userSessionKey}` }} />;
+  // return <WebView source={{ uri: `${url}?sid=${userSessionKey}` }} />;
+  const hideSpinner = () => {
+    setLoading(false);
+  };
+  const showSpinner = () => {
+    setLoading(true);
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <WebView
+        source={{
+          uri: `${url}?sid=${userSessionKey}`,
+        }}
+        onLoadStart={() => showSpinner()}
+        onLoad={() => hideSpinner()}
+      />
+      {loading && (
+        <View
+          style={{
+            flex: 1,
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            position: "absolute",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          size="large"
+        >
+          <ActivityIndicator size="large" color="#2f89fc" />
+        </View>
+      )}
+    </View>
+  );
 };
 
 // -------------- All bottom menu  -------------
