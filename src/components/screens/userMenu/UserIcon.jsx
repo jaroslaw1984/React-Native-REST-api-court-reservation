@@ -15,7 +15,7 @@ const UserIcon = ({ navigation }) => {
       style={{ marginRight: 15 }}
     >
       {userIcon ? (
-        <Avatar.Image source={{ uri: userIcon }} size={53} />
+        <Avatar.Image source={{ uri: userIcon }} size={45} />
       ) : (
         <FontAwesome
           name="user-circle"
