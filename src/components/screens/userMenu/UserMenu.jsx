@@ -201,7 +201,13 @@ const HomeStack = createStackNavigator();
 // This show everything that is in club tab
 const HomeStackScreen = ({ navigation }) => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerTitleStyle: {
+          marginLeft: -30,
+        },
+      }}
+    >
       <HomeStack.Screen
         name="Kluby"
         component={ClubsScreen}
