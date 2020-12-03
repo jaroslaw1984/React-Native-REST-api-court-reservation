@@ -36,33 +36,37 @@ const Clubs = ({ nav }) => {
   useClubs("https://korty.org/api/clubs/bookmark/show");
 
   const { userClubs, loading, handleRemoveClub } = useContext(UserContext);
-  const [count, setCount] = useState(0);
-  const [visible, setVisible] = useState(false);
+  // this is broken back action to exit an application with information
+  // ---------------------------------------------------------------------------------
+  // const [count, setCount] = useState(0);
+  // const [visible, setVisible] = useState(false);
 
-  const onDismissSnackBar = () => setVisible(false);
+  // const onDismissSnackBar = () => setVisible(false);
 
-  useEffect(() => {
-    if (Platform.OS === "ios") return;
-    const backAction = BackHandler.addEventListener("hardwareBackPress", () => {
-      setCount(count + 1);
-      if (count < 1) {
-        setVisible(true);
-        backAction.remove();
-        return true;
-      } else {
-        BackHandler.exitApp();
-        backAction.remove();
-        return true;
-      }
-    });
-    setTimeout(() => {
-      setCount(0);
-    }, 2000);
-  });
+  // useEffect(() => {
+  //   if (Platform.OS === "ios") return;
+  //   const backAction = BackHandler.addEventListener("hardwareBackPress", () => {
+  //     setCount(count + 1);
+  //     if (count < 1) {
+  //       setVisible(true);
+  //       backAction.remove();
+  //       return true;
+  //     } else {
+  //       BackHandler.exitApp();
+  //       backAction.remove();
+  //       return true;
+  //     }
+  //   });
+  //   setTimeout(() => {
+  //     setCount(0);
+  //   }, 2000);
+  // });
+  // ---------------------------------------------------------------------------------
 
   return (
     <React.Fragment>
-      {loading ? (
+      {/* this is broken back action to exit an application. Code structure */}
+      {/* {loading ? (
         <View style={styles.loading_Indicator}>
           <ActivityIndicator size="large" color="#2f89fc" />
         </View>
@@ -78,6 +82,13 @@ const Clubs = ({ nav }) => {
           </Snackbar>
           <ClubItem nav={nav} data={userClubs} onRemove={handleRemoveClub} />
         </View>
+      )} */}
+      {loading ? (
+        <View style={styles.loading_Indicator}>
+          <ActivityIndicator size="large" color="#2f89fc" />
+        </View>
+      ) : (
+        <ClubItem nav={nav} data={userClubs} onRemove={handleRemoveClub} />
       )}
     </React.Fragment>
   );
