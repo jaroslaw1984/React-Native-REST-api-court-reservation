@@ -97,7 +97,13 @@ const Content = ({ url, navigation, clubEndPointName }) => {
 
 const WebviewStructure = ({ nav, url, name, clubEndPointName }) => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleStyle: {
+          marginLeft: -33,
+        },
+      }}
+    >
       <Stack.Screen
         name={name}
         // Just in case if customer will change his mind
