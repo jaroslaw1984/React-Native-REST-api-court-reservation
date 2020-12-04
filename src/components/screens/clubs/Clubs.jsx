@@ -88,7 +88,9 @@ const Clubs = ({ nav }) => {
           <ActivityIndicator size="large" color="#2f89fc" />
         </View>
       ) : (
-        <ClubItem nav={nav} data={userClubs} onRemove={handleRemoveClub} />
+        <View style={styles.container}>
+          <ClubItem nav={nav} data={userClubs} onRemove={handleRemoveClub} />
+        </View>
       )}
     </React.Fragment>
   );
