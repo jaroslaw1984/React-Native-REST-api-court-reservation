@@ -178,14 +178,18 @@ const Login = ({ nav }) => {
 };
 
 const styles = StyleSheet.create({
-  login__container: {
-    justifyContent: "center",
-    backgroundColor: "#fff",
-    paddingTop: 50,
-    height: Dimensions.get("window").height,
-  },
   login__content: {
+    flex: 1,
     backgroundColor: "#fff",
+    justifyContent: "center",
+    paddingTop: 50,
+  },
+  login__container: {
+    // justifyContent: "center",
+    // alignSelf: "center",
+    // backgroundColor: "#fff",
+    // paddingTop: 50,
+    height: Dimensions.get("window").height,
   },
   img__container: {
     alignItems: "center",
