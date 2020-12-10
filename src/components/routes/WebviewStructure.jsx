@@ -38,6 +38,8 @@ const Content = ({ url, navigation, clubEndPointName }) => {
         "https://korty.org/",
         "https://korty.org/profil",
         "https://korty.org/ustawienia",
+        "https://korty.org/rankingi/",
+        "https://korty.org/rankingi/?przyjazny_link_klub=rankingi",
         "https://korty.org/panel",
         "https://korty.org/moje-rezerwacje/nadchodzace",
       ];

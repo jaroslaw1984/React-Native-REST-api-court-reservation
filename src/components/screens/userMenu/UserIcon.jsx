@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FontAwesome } from "@expo/vector-icons";
@@ -9,9 +9,20 @@ const UserIcon = ({ navigation }) => {
   const { user } = useContext(UserContext);
   const userIcon = user.data.results.logo_src;
 
+  // if drawer will be open it will be close
+  useEffect(() => {
+    const closeDrawer = () => {
+      const close = navigation.closeDrawer();
+
+      return close;
+    };
+
+    closeDrawer();
+  });
+
   return (
     <TouchableOpacity
-      onPress={() => navigation.toggleDrawer()}
+      onPress={() => navigation.openDrawer()}
       style={{ marginRight: 15 }}
     >
       {userIcon ? (
