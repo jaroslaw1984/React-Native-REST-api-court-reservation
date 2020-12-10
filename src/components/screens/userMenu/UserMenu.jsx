@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -14,7 +14,7 @@ import WebviewStructure from "../../routes/WebviewStructure";
 import UserIcon from "./UserIcon";
 import ChangeClubsLocation from "../location/ChangeClubsLocation";
 import { UserContext } from "../../context/UserProvider";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, View, BackHandler } from "react-native";
 import { WebView } from "react-native-webview";
 
 const setCookie = ({ user }) => {
@@ -42,11 +42,15 @@ const setCookie = ({ user }) => {
 // };
 
 // This show details about club and load the webpage of club info
-const AboutClub = ({ route }) => {
+const AboutClub = ({ route, navigation }) => {
   const { user } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const userSessionKey = user.data.results.session_key;
   const { url } = route.params;
+
+  // navigation for WebView
+  const [canGoBack, setCanGoBack] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   // return <WebView source={{ uri: `${url}?sid=${userSessionKey}` }} />;
   const hideSpinner = () => {
@@ -56,6 +60,31 @@ const AboutClub = ({ route }) => {
     setLoading(true);
   };
 
+  const webviewRef = useRef(null);
+  console.log(currentUrl);
+
+  useEffect(() => {
+    const backAction = () => {
+      const endPoint = [`${url}?sid=${userSessionKey}`];
+
+      if (webviewRef.current) {
+        webviewRef.current.goBack();
+        if (endPoint.includes(currentUrl)) {
+          navigation.navigate("Kluby");
+          backHandler.remove();
+        }
+        return true;
+      }
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [currentUrl]);
+
   return (
     <View style={{ flex: 1 }}>
       <WebView
@@ -64,6 +93,11 @@ const AboutClub = ({ route }) => {
         }}
         onLoadStart={() => showSpinner()}
         onLoad={() => hideSpinner()}
+        ref={webviewRef}
+        onNavigationStateChange={(navState) => {
+          setCanGoBack(navState.canGoBack);
+          setCurrentUrl(navState.url);
+        }}
       />
       {loading && (
         <View
