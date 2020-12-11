@@ -85,9 +85,11 @@ const styles = StyleSheet.create({
   },
   club__container__img: {
     flex: 1,
+    flexDirection: "row",
   },
   club__container__img__offline: {
     flex: 1,
+    flexDirection: "row",
     opacity: 0.3,
   },
   club__img: {
@@ -153,9 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   club__isOnline: {
-    position: "absolute",
-    bottom: -5,
-    right: 20,
+    alignSelf: "flex-end",
     width: 22,
     height: 22,
     borderWidth: 2,
@@ -172,9 +172,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   club__isOffline: {
-    position: "absolute",
-    bottom: -5,
-    right: 20,
+    alignSelf: "flex-end",
     width: 22,
     height: 22,
     borderWidth: 2,
