@@ -36,6 +36,7 @@ const Login = ({ nav }) => {
     user.append("password", password);
     user.append("version_os", version_os);
     user.append("version_code", version_code);
+    user.append("remember", true);
     // user.append("username", "tester2");
     // user.append("password", "tester");
 
