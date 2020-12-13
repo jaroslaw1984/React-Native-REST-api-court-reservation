@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
   club__container__img: {
     flex: 1,
     flexDirection: "row",
+    marginRight: 10,
   },
   club__container__img__offline: {
     flex: 1,
