@@ -48,7 +48,7 @@ const Content = ({ url, navigation, clubEndPointName }) => {
         webviewRef.current.goBack();
         if (endPoint.includes(currentUrl)) {
           navigation.navigate("Kluby");
-          backHandler.remove();
+          // backHandler.remove();
         }
         return true;
       }
