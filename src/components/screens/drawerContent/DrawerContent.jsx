@@ -19,6 +19,7 @@ import { UserContext } from "../../context/UserProvider";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
+import axios from "axios";
 
 const DrawerContent = (props) => {
   const [language, setLanguage] = useState("PL");
@@ -35,6 +36,17 @@ const DrawerContent = (props) => {
 
   const handleChangeLanguage = () => {
     setChangeLanguage(!changeLanguage);
+  };
+
+  const handleLogoutSession = async () => {
+    const url = "https://korty.org/api/logout";
+
+    const userData = new FormData();
+    const sessionKey = user.data.results.session_key;
+
+    userData.append("session_key", sessionKey.toString());
+
+    await axios.post(url, userData);
   };
 
   return (
@@ -124,7 +136,10 @@ const DrawerContent = (props) => {
         <DrawerItem
           icon={() => <SimpleLineIcons name="logout" size={20} color="black" />}
           label="Wyloguj"
-          onPress={() => logout()}
+          onPress={() => {
+            logout();
+            handleLogoutSession();
+          }}
         />
       </Drawer.Section>
     </View>
